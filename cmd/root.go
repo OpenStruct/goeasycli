@@ -3,12 +3,13 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/spf13/cobra"
 	"goeasycli/utils"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 var projectName string
@@ -99,16 +100,18 @@ func createProjectStructure() {
 func createProjectFiles(projectName, framework string) {
 
 	sharedFiles := map[string]string{
-		"shared/.env.tmpl":           ".env",
-		"shared/middlewares.go.tmpl": "middlewares/middlewares.go",
-		"shared/config.go.tmpl":      "config/config.go",
-		"shared/utils.go.tmpl":       "utils/utils.go",
-		"shared/user_model.go.tmpl":  "models/user.go",
-		"shared/go.mod.tmpl":         "go.mod",
-		"shared/database.go.tmpl":    "database/database.go",
-		"shared/template.go.tmpl":    "templates/templates.go",
-		"shared/zap.go.tmpl":         "loggers/zap.go",
-		"shared/sentry.go.tmpl":      "loggers/sentry.go",
+		"shared/.env.tmpl":             ".env",
+		"shared/middlewares.go.tmpl":   "middlewares/middlewares.go",
+		"shared/config.go.tmpl":        "config/config.go",
+		"shared/utils.go.tmpl":         "utils/utils.go",
+		"shared/user_model.go.tmpl":    "models/user.go",
+		"shared/go.mod.tmpl":           "go.mod",
+		"shared/database.go.tmpl":      "database/database.go",
+		"shared/template.go.tmpl":      "templates/templates.go",
+		"shared/zap.go.tmpl":           "loggers/zap.go",
+		"shared/sentry.go.tmpl":        "loggers/sentry.go",
+		"shared/test_database.db.tmpl": "test_database.db",
+		"shared/gitignore.tmpl":        ".gitignore",
 	}
 
 	frameworkFiles := map[string]map[string]string{
