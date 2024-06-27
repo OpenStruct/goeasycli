@@ -1,0 +1,11 @@
+package routers
+
+import (
+	"github.com/gin-gonic/gin"
+	"{{ .ProjectName }}/controllers"
+)
+
+func HealthRoute(router *gin.Engine) {
+	status := new(controllers.HealthRepo)
+	router.GET("/health", status.Health)
+}
