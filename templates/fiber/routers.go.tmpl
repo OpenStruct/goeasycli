@@ -1,0 +1,34 @@
+package routers
+
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+)
+
+func NewRouter() *fiber.App {
+	app := fiber.New()
+
+	// CORS configuration
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		// AllowHeaders: "Origin, Content-Length, Content-Type, Authorization",
+	}))
+
+	app.Use(logger.New())
+
+	// Health check route
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
+	})
+
+	v1 := app.Group("/v1")
+	{
+		userGroup := v1.Group("/user")
+		{
+			UserRoutes(userGroup)
+		}
+	}
+
+	return app
+}
