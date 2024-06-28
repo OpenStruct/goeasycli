@@ -42,7 +42,7 @@ else
     fetch_latest_tag "$REPO"
 fi
 
-# BASE_URL="file:///Users/noahalorwu/Desktop/gostartpro/dist/"
+# BASE_URL="file:///Users/noahalorwu/Desktop/goeasycli/dist/"
 BASE_URL="https://github.com/$REPO/releases/download/$CLI_VERSION"
 
 # Determine the OS and architecture

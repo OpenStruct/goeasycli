@@ -2,11 +2,13 @@ package database
 
 import (
 	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"{{ .ProjectName }}/config"
+	"{{ .ProjectName }}/models"
 )
 
 var (
@@ -97,5 +99,16 @@ func RunMigrations(migrations Migrations) {
 			fmt.Println("error migrating models")
 		}
 
+		/**
+		This line has been added to create a test user with name "test" and email "test@goeasycli".
+		This is just for testing purposes and should be removed in production.
+		*/
+		if err == nil && migrations.DB.Migrator().HasTable(&models.GoEasyCLITestUser{}) {
+			user := models.GoEasyCLITestUser{
+				Name:  "test",
+				Email: "test@goeasycli.com",
+			}
+			migrations.DB.Create(&user)
+		}
 	}
 }
