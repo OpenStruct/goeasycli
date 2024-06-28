@@ -11,7 +11,7 @@ import (
 type UserRepo struct{}
 
 func (repo *UserRepo) CreateUser(ctx *gin.Context) {
-	var user models.User
+	var user models.GoEasyCLITestUser
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -50,7 +50,7 @@ func (repo *UserRepo) GetUserByID(ctx *gin.Context) {
 
 
 func (repo *UserRepo) UpdateUser(ctx *gin.Context) {
-	var user models.User
+	var user models.GoEasyCLITestUser
 	
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

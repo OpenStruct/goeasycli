@@ -11,7 +11,7 @@ import (
 type UserController struct {}
 
 func (repo *UserController) CreateUser(c *fiber.Ctx) error {
-	var user models.User
+	var user models.GoEasyCLITestUser
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "cannot parse JSON"})
 	}
@@ -42,7 +42,7 @@ func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 }
 
 func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
-	var user models.User
+	var user models.GoEasyCLITestUser
 
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "cannot parse JSON"})

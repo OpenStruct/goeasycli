@@ -15,12 +15,12 @@ import (
 var projectName string
 var framework string
 var rootCmd = &cobra.Command{
-	Use:   "gin-cli",
+	Use:   "goeasycli",
 	Short: "CLI tool to create a Gin project",
 	Long: `A CLI tool to create web projects using different frameworks like:
 	- Gin
 	- Fiber`,
-	Example: "gostartpro -p project_name -f  framework \neg. gostartpro -p love_match_api -f gin ",
+	Example: "goeasycli -p project_name -f  framework \neg. goeasycli -p love_match_api -f gin ",
 	Run: func(cmd *cobra.Command, args []string) {
 		dir, _ := os.Getwd()
 		if framework == "" {
