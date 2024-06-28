@@ -1,3 +1,5 @@
 dist/
 goeasycli
 test/
+test_gin/
+test_fiber/
