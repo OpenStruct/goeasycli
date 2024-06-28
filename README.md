@@ -1,14 +1,19 @@
 # Welcome to GoEasyCLI
 
-When you're starting a new Go project, there are a few things you need to do to get the project running. You need to create a new project, set up your project structure, and install the necessary dependencies. This can be a time-consuming process, especially if you're starting a new project from scratch, or if you're not familiar with the Go ecosystem. `GoEasyCLI` is a command-line interface that helps you bootstrap your Go project with ease. It creates a new project for you, sets up the project structure, and installs the necessary dependencies, so you can get started with your project right away.
+Starting a new Go project involves setting up the project structure, installing dependencies, and configuring initial settings, which can be time-consuming. **GoEasyCLI** streamlines this process with a command-line interface, automating project creation and setup tasks. Whether you're new to Go or looking to speed up your workflow, GoEasyCLI helps you get started quickly.
 
 ## Installation
 
+Install GoEasyCLI with the following command:
+
 ```bash
-bash installation script here
+bash installation_script_here
+
 ```
 
 ## Usage
+
+To begin, use the following command to explore available options:
 
 ```bash
 goeasycli --help
@@ -16,4 +21,55 @@ goeasycli --help
 
 ## Commands
 
-- `goeasycli -p <project_name> -f {gin, fiber}` - this will create a new project with the framework you choose. If the framework is not specified, it will default to `gin`.
+### Create a New Project
+
+Create a new Go project with specified options:
+
+```bash
+goeasycli -p <project_name> -f {gin, fiber}
+```
+
+- Replace <project_name> with your desired project name.
+- Use -f to select a web framework (gin or fiber). If not specified, the default framework is gin.
+
+Example:
+
+```bash
+goeasycli -p my_project -f fiber
+```
+
+This command creates a new Go project named myproject using the Fiber web framework.
+
+## Folder Structure
+
+After using GoEasyCLI to create a project, the folder structure will be as follows:
+
+```
+project_name
+├── config
+│   └── config.go
+├── controllers
+│   └── health.sh
+|   └── user.sh
+├── database
+│   └── database.go
+├── loggers
+│   └── sentry.go
+|   └── zap.go
+├── middlewares
+│   └── middlewares.go
+├── models
+│   └── user.go
+├── routes
+│   └── health.go
+|   └── routers.go
+|   └── user.go
+├── structs
+├── templates
+|   └── templates.go
+├── utils
+│   └── responses.go
+|   └── utils.go
+```
+
+This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, and utilities.
