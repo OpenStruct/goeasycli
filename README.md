@@ -1,11 +1,11 @@
-# GoEasyCLI
+# Welcome to GoEasyCLI
 
-This is a CLI to help you bootstrap your Go project with ease.
+When you're starting a new Go project, there are a few things you need to do to get the project running. You need to create a new project, set up your project structure, and install the necessary dependencies. This can be a time-consuming process, especially if you're starting a new project from scratch, or if you're not familiar with the Go ecosystem. `GoEasyCLI` is a command-line interface that helps you bootstrap your Go project with ease. It creates a new project for you, sets up the project structure, and installs the necessary dependencies, so you can get started with your project right away.
 
 ## Installation
 
 ```bash
-installation script here
+bash installation script here
 ```
 
 ## Usage
@@ -16,4 +16,4 @@ goeasycli --help
 
 ## Commands
 
-- `goeasycli -p test -f {gin, fiber}` - this will create a new project with the name `test` and the framework you choose. The default framework is `gin`. We're working on adding more frameworks.
+- `goeasycli -p <project_name> -f {gin, fiber}` - this will create a new project with the framework you choose. If the framework is not specified, it will default to `gin`.
