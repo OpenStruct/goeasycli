@@ -5,7 +5,7 @@ Starting a new Go project involves setting up the project structure, installing 
 ## Installation
 
 Install GoEasyCLI with the following command:
-### linux 
+### Unix-like Systems (Linux, macOS)
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.sh)"
 ```
