@@ -3,10 +3,14 @@ package controllers
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
+	"{{ .ProjectName }}/config"
 )
 
 type HealthRepo struct{}
 
 func (repo *HealthRepo) Health(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"status": "I am breathing!"})
+	ctx.JSON(http.StatusOK, gin.H{
+	"status": "I am breathing!",
+	"environment":config.CFG.V.GetString("APP_ENV"),
+	})
 }

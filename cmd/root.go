@@ -84,6 +84,7 @@ func createProjectStructure() {
 		"utils",
 		"loggers",
 		"templates",
+		"seeds",
 	}
 
 	for _, dir := range dirs {
@@ -100,7 +101,7 @@ func createProjectStructure() {
 func createProjectFiles(projectName, framework string) {
 
 	sharedFiles := map[string]string{
-		"shared/.env.tmpl":             ".env",
+		"shared/env.tmpl":              ".env",
 		"shared/middlewares.go.tmpl":   "middlewares/middlewares.go",
 		"shared/config.go.tmpl":        "config/config.go",
 		"shared/utils.go.tmpl":         "utils/utils.go",
@@ -112,6 +113,7 @@ func createProjectFiles(projectName, framework string) {
 		"shared/sentry.go.tmpl":        "loggers/sentry.go",
 		"shared/test_database.db.tmpl": "test_database.db",
 		"shared/gitignore.tmpl":        ".gitignore",
+		"shared/seeds.tmpl":            "seeds/seed.go",
 	}
 
 	frameworkFiles := map[string]map[string]string{

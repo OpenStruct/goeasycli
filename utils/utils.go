@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bufio"
+	"embed"
 	"fmt"
 	"log"
 	"os"
@@ -12,6 +13,8 @@ import (
 	"strings"
 	"text/template"
 )
+
+var templates embed.FS
 
 func IsFramework(framework string) bool {
 
@@ -86,17 +89,20 @@ func OpenDirectory(projectPath string) {
 
 func CreateFileFromTemplate(projectName, templateName, filePath string) {
 	fullPath := filepath.Join(projectName, filePath)
-	fileContent := readTemplateFile(templateName)
+	fileContent, err := readTemplateFile(templateName)
+	if err != nil {
+		return
+	}
 	writeToFile(projectName, fullPath, fileContent)
 }
 
-func readTemplateFile(templateName string) string {
+func readTemplateFile(templateName string) (string, error) {
 	templatePath := filepath.Join("templates", templateName)
-	content, err := os.ReadFile(templatePath)
+	content, err := templates.ReadFile(templatePath)
 	if err != nil {
-		log.Fatalf("Failed to read template file %s: %s", templatePath, err)
+		return "", fmt.Errorf("failed to read template file %s: %w", templatePath, err)
 	}
-	return string(content)
+	return string(content), nil
 }
 
 func writeToFile(projectName, filePath, content string) {
@@ -123,6 +129,10 @@ func writeToFile(projectName, filePath, content string) {
 	if err := tmpl.Execute(file, data); err != nil {
 		log.Fatalf("Failed to execute template: %s", err)
 	}
+}
+
+func SetTemplatesFS(fs embed.FS) {
+	templates = fs
 }
 
 func PromptForFramework() string {

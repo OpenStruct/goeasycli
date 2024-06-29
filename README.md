@@ -5,10 +5,14 @@ Starting a new Go project involves setting up the project structure, installing 
 ## Installation
 
 Install GoEasyCLI with the following command:
-
+### linux 
 ```bash
-bash installation_script_here
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.sh)"
+```
 
+### windows
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1" -OutFile "$env:TEMP\install.ps1"; & "$env:TEMP\install.ps1"
 ```
 
 ## Usage
@@ -49,8 +53,8 @@ project_name
 ├── config
 │   └── config.go
 ├── controllers
-│   └── health.sh
-|   └── user.sh
+│   └── health.go
+|   └── user.go
 ├── database
 │   └── database.go
 ├── loggers

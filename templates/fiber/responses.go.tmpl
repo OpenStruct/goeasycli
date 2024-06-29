@@ -36,6 +36,10 @@ func SuccessResponse(ctx *fiber.Ctx, message string, data interface{}, total *in
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
+func SuccessResponseData(ctx *fiber.Ctx, data interface{}) error {
+	return ctx.Status(fiber.StatusOK).JSON(data)
+}
+
 // FailedResponse sends a failed response
 func FailedResponse(ctx *fiber.Ctx, message string, reason error) error {
 	response := fiber.Map{

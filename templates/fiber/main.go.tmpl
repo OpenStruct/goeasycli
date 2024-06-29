@@ -6,6 +6,8 @@ import (
 	"{{ .ProjectName }}/database"
 	"{{ .ProjectName }}/models"
 	"{{ .ProjectName }}/routers"
+	"{{ .ProjectName }}/seeds"
+	"{{ .ProjectName }}/loggers"
 	"log"
 	"os"
 	"os/signal"
@@ -15,18 +17,21 @@ import (
 
 func main() {
 	
-
+	logger.InitZaplogger()
+	logger.InitSentry()
 	// Initialize the database
 	db := database.Init()
 
 	migration := database.Migrations{
 		DB: db,
 		Models: []interface{}{
-			&models.User{},
+			&models.GoEasyCLITestUser{},
 		},
 	}
 
 	database.RunMigrations(migration)
+
+	seeds.RunSeedsData(migration)
 
 	app:=routers.NewRouter()
 
