@@ -4,6 +4,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"{{ .ProjectName }}/config"
+	"{{ .ProjectName }}/utils"
 )
 
 func NewRouter() *fiber.App {
@@ -19,7 +21,11 @@ func NewRouter() *fiber.App {
 
 	// Health check route
 	app.Get("/health", func(c *fiber.Ctx) error {
-		return c.SendString("OK")
+		response := fiber.Map{
+			"status":      "I am breathing!",
+			"environment": config.CFG.V.GetString("APP_ENV"),
+		}
+		return utils.SuccessResponseData(c, response)
 	})
 
 	v1 := app.Group("/v1")

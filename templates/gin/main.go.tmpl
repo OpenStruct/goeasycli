@@ -13,12 +13,14 @@ import (
 	"{{ .ProjectName }}/database"
 	"{{ .ProjectName }}/models"
 	"{{ .ProjectName }}/routers"
+	"{{ .ProjectName }}/seeds"
+	"{{ .ProjectName }}/loggers"
 )
 
 func main() {
 
-	//config.LoadEnv()
-
+	logger.InitZaplogger()
+	logger.InitSentry()
 	db := database.Init()
 
 	migration := database.Migrations{
@@ -29,6 +31,8 @@ func main() {
 	}
 
 	database.RunMigrations(migration)
+
+	seeds.RunSeedsData(migration)
 
 	port := config.CFG.V.GetString("SERVER_PORT")
 	if port == "" {

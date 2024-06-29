@@ -3,7 +3,7 @@
 # Exit on any error
 set -e
 
-REPO="openstruct/goeasycli"
+REPO="OpenStruct/goeasycli"
 
 fetch_latest_tag() {
     local repo_url="$1"
@@ -98,7 +98,7 @@ rm -rf "$TEMP_DIR"
 # Verify installation
 if command -v goeasycli &> /dev/null
 then
-    echo "CLI tool installed successfully!"
+    echo "goeasycli installed successfully!"
 else
     echo "Installation failed."
     exit 1

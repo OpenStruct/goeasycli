@@ -1,7 +1,7 @@
 # Exit on any error
 $ErrorActionPreference = "Stop"
 
-$env:REPO = "openstruct/goeasycli"
+$env:REPO = "OpenStruct/goeasycli"
 # Function to fetch the latest tag using GitHub API
 function Fetch-LatestTag {
     param (
@@ -68,7 +68,7 @@ Remove-Item -Path "$TEMP_DIR" -Recurse
 
 # Verify installation
 if (Get-Command goeasycli -ErrorAction SilentlyContinue) {
-    Write-Host "CLI tool installed successfully!"
+    Write-Host "goeasycli installed successfully!"
 } else {
     Write-Host "Installation failed."
     exit 1
