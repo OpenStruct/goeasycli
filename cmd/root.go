@@ -20,7 +20,7 @@ var rootCmd = &cobra.Command{
 	Long: `A CLI tool to create web projects using different frameworks like:
 	- Gin
 	- Fiber`,
-	Example: "goeasycli -p project_name -f  framework \neg. goeasycli -p love_match_api -f gin ",
+	Example: "goeasycli -p project_name -f  framework \neg. goeasycli -p fafa_shop_api -f gin ",
 	Run: func(cmd *cobra.Command, args []string) {
 		dir, _ := os.Getwd()
 		if framework == "" {

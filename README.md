@@ -39,17 +39,17 @@ goeasycli -p <project_name> -f {gin, fiber}
 Example:
 
 ```bash
-goeasycli -p my_project -f fiber
+goeasycli -p fafa_shop_api -f fiber
 ```
 
-This command creates a new Go project named myproject using the Fiber web framework.
+This command creates a new Go project named fafa_shop_api using the Fiber web framework.
 
 ## Folder Structure
 
 After using GoEasyCLI to create a project, the folder structure will be as follows:
 
 ```
-project_name
+fafa_shop_api
 ├── config
 │   └── config.go
 ├── controllers
@@ -69,6 +69,8 @@ project_name
 |   └── routers.go
 |   └── user.go
 ├── structs
+├── seeds
+|   └── seeds.go
 ├── templates
 |   └── templates.go
 ├── utils
@@ -76,4 +78,4 @@ project_name
 |   └── utils.go
 ```
 
-This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, and utilities.
+This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, seeds and utilities.
