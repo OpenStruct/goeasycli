@@ -30,7 +30,7 @@ goeasycli --help
 Create a new Go project with specified options:
 
 ```bash
-goeasycli -p <project_name> -f {gin, fiber}
+goeasycli -p <project_name> -f {gin, fiber, echo}
 ```
 
 - Replace <project_name> with your desired project name.
@@ -42,7 +42,7 @@ Example:
 goeasycli -p fafa_shop_api -f fiber
 ```
 
-This command creates a new Go project named fafa_shop_api using the Fiber web framework.
+This command creates a new Go project named `fafa_shop_api` using the Fiber web framework.
 
 ## Folder Structure
 
@@ -79,3 +79,13 @@ fafa_shop_api
 ```
 
 This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, seeds and utilities.
+
+## Contributors
+
+<a href="https://github.com/OpenStruct/goeasycli/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=OpenStruct/goeasycli" />
+</a>
+
+## License
+
+GoEasyCLI is released under the [MIT license](LICENSE).
