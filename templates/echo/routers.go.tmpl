@@ -7,13 +7,23 @@ import (
 
 func NewRouter() *echo.Echo {
 	router := echo.New()
+	router.Use(middleware.Logger())
 	router.Use(middleware.CORS())
+	// router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	AllowOrigins: []string{"https://labstack.com", "https://labstack.net"},
+	// 	AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	// }))
+	// change the origins above to your designated origins
+	router.Use(middleware.Recover())
 
 	HealthRoute(router)
 
 	v1 := router.Group("/v1")
 	{
-		UserRoutes(v1)
+		userGroup := v1.Group("/user")
+		{
+			UserRoutes(userGroup)
+		}
 	}
 
 	return router
