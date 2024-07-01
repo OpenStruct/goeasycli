@@ -1,0 +1,20 @@
+package routers
+
+import (
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+)
+
+func NewRouter() *echo.Echo {
+	router := echo.New()
+	router.Use(middleware.CORS())
+
+	HealthRoute(router)
+
+	v1 := router.Group("/v1")
+	{
+		UserRoutes(v1)
+	}
+
+	return router
+}

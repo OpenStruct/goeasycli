@@ -1,0 +1,10 @@
+package routers
+
+import (
+	"github.com/labstack/echo"
+	"{{ .ProjectName }}/controllers"
+)
+
+func HealthRoute(router *echo.Echo) {
+	router.GET("/health", controllers.Health)
+}

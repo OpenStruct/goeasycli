@@ -19,7 +19,8 @@ var rootCmd = &cobra.Command{
 	Short: "CLI tool to create a Gin project",
 	Long: `A CLI tool to create web projects using different frameworks like:
 	- Gin
-	- Fiber`,
+	- Fiber
+	- Echo`,
 	Example: "goeasycli -p project_name -f  framework \neg. goeasycli -p fafa_shop_api -f gin ",
 	Run: func(cmd *cobra.Command, args []string) {
 		dir, _ := os.Getwd()
@@ -132,6 +133,15 @@ func createProjectFiles(projectName, framework string) {
 			"fiber/user_routers.go.tmpl":    "routers/user.go",
 			"fiber/main.go.tmpl":            "main.go",
 			"fiber/responses.go.tmpl":       "utils/responses.go",
+		},
+		"echo": {
+			"echo/main.go.tmpl":              "main.go",
+			"echo/health_controller.go.tmpl": "controllers/health.go",
+			"echo/user_controller.go.tmpl":   "controllers/user.go",
+			"echo/routers.go.tmpl":           "routers/routers.go",
+			"echo/user_routers.go.tmpl":      "routers/user.go",
+			"echo/health_router.go.tmpl":     "routers/health.go",
+			"echo/responses.go.tmpl":         "utils/responses.go",
 		},
 	}
 
