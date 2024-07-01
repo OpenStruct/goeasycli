@@ -14,15 +14,13 @@ import (
 	"{{ .ProjectName }}/models"
 	"{{ .ProjectName }}/routers"
     "{{ .ProjectName }}/seeds"
-	"{{ .ProjectName }}/loggers"
+	logger "{{ .ProjectName }}/loggers"
 )
 
 func main() {
 
 	logger.InitZaplogger()
 	logger.InitSentry()
-	// Initialize the database
-	db := database.Init()
 
 	db := database.Init()
 
