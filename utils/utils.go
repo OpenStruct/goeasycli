@@ -20,7 +20,7 @@ func IsFramework(framework string) bool {
 
 	framework = strings.ToLower(framework)
 
-	isFramework := []string{"gin", "fiber"}
+	isFramework := []string{"gin", "fiber", "echo"}
 
 	exists := slices.Contains(isFramework, framework)
 
@@ -137,7 +137,7 @@ func SetTemplatesFS(fs embed.FS) {
 
 func PromptForFramework() string {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Please choose a framework (gin,fiber):")
+	fmt.Println("Please choose a framework (gin,fibe,echo):")
 	framework, _ := reader.ReadString('\n')
 	framework = strings.TrimSpace(framework)
 	return framework
