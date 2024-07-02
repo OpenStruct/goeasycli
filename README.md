@@ -9,12 +9,15 @@ Starting a new Go project involves setting up the project structure, installing 
 ## Installation
 
 Install GoEasyCLI with the following command:
+
 ### Unix-like Systems (Linux, macOS)
+
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.sh)"
 ```
 
 ### windows
+
 ```powershell
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1" -OutFile "$env:TEMP\install.ps1"; & "$env:TEMP\install.ps1"
 ```
@@ -37,8 +40,12 @@ Create a new Go project with specified options:
 goeasycli -p <project_name> -f {gin, fiber, echo}
 ```
 
-- Replace <project_name> with your desired project name.
-- Use -f to select a web framework (gin or fiber). If not specified, the default framework is gin.
+> Replace `<project_name>` with your desired project name.
+
+**The supported frameworks are:**
+- [x] [Gin](https://gin-gonic.com)
+- [x] [Fiber](https://gofiber.io)
+- [x] [Echo](https://echo.labstack.com)
 
 Example:
 
@@ -55,39 +62,46 @@ This command creates a new Go project named `fafa_shop_api` using the Fiber web 
 After using GoEasyCLI to create a project, the folder structure will be as follows:
 
 ```
-fafa_shop_api
-├── config
-│   └── config.go
-├── controllers
-│   └── health.go
-|   └── user.go
-├── database
-│   └── database.go
-├── loggers
-│   └── sentry.go
-|   └── zap.go
-├── middlewares
-│   └── middlewares.go
-├── models
-│   └── user.go
-├── routes
-│   └── health.go
-|   └── routers.go
-|   └── user.go
-├── structs
-├── seeds
-|   └── seeds.go
-├── templates
-|   └── templates.go
-├── utils
-│   └── responses.go
-|   └── utils.go
+└── 📁fafa_shop_api
+    └── .env
+    └── .gitignore
+    └── 📁config
+        └── config.go
+    └── 📁controllers
+        └── health.go
+        └── user.go
+    └── 📁database
+        └── database.go
+    └── go.mod
+    └── go.sum
+    └── 📁loggers
+        └── sentry.go
+        └── zap.go
+    └── main.go
+    └── 📁middlewares
+        └── middlewares.go
+    └── 📁models
+        └── user.go
+    └── 📁routers
+        └── health.go
+        └── routers.go
+        └── user.go
+    └── 📁seeds
+        └── seed.go
+    └── 📁structs
+    └── 📁templates
+        └── templates.go
+    └── test_database.db
+    └── 📁utils
+        └── responses.go
+        └── utils.go
 ```
 
 This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, seeds and utilities.
 
 ## config
 The `config` folder contains the configuration settings for the project.
+
 <details>
 
 <summary>config.go</summary>
@@ -99,6 +113,7 @@ The `config` folder contains the configuration settings for the project.
 
 ## controllers
 The `controllers` folder contains the controller files for the project. The controller files handle the business logic for the project.
+
 <details>
 
 <summary>health.go</summary>
@@ -117,6 +132,7 @@ The `controllers` folder contains the controller files for the project. The cont
 
 ## database
 The `database` folder contains the database configuration and connection settings for the project.
+
 <details>
 
 <summary>database.go</summary>
@@ -129,6 +145,7 @@ The `database` folder contains the database configuration and connection setting
 
 ## loggers
 The `loggers` folder contains the logger configuration settings for the project. The project uses two loggers: Zap and Sentry.
+
 <details>
 
 <summary>zap.go</summary>
@@ -147,7 +164,77 @@ The `loggers` folder contains the logger configuration settings for the project.
 
 </details>
 
+## middlewares
+The `middlewares` folder contains the middleware settings for the project.
+
+## models
+The `models` folder contains the model files for the project. The model files define the database schema for the project.
+
+<details>
+<summary>user.go</summary>
+
+- <kbd> It contains the user model, which defines the sample user schema.</kbd>
+- <kbd> You can add more model files to define additional database schemas for the project.</kbd>
+</details>
+
+## routes
+The `routes` folder contains the route files for the project. The route files define the API routes for the project.
+
+<details>
+<summary>health.go</summary>
+
+- <kbd> It contains the health check route, which returns the status of the application.</kbd>
+</details>
+
+<details>
+<summary>routers.go</summary>
+
+- <kbd> It initializes the router and registers the API routes for the project.</kbd>
+- <kbd> Other route files are registered in this file.</kbd>
+</details>
+
+<details>
+<summary>user.go</summary>
+
+- <kbd> It contains the sample user routes, which define the API routes for basic CRUD operations on users.</kbd>
+</details>
+
+## structs
+The `structs` folder contains the struct files for the project. The struct files define the data structures used in the project.
+
+## seeds
+The `seeds` folder contains the seed files for the project. The seed files populate the database with sample data.
+
+<details>
+<summary>seeds.go</summary>
+
+- <kbd> It contains the seed logic to populate the database with sample user.</kbd>
+- <kbd> You can comment out the seed logic if you don't want to populate the database with sample data.</kbd>
+</details>
+
+## templates
+The `templates` folder contains the template files for the project. The template files define the HTML templates used in the project.
+Sometimes, you may need to render HTML templates, or send emails with HTML content. In such cases, you can use the template files in this folder.
+
+## utils
+The `utils` folder contains the utility files for the project. The utility files contain helper functions and utility functions used in the project.
+
+<details>
+<summary>responses.go</summary>
+
+- <kbd> It contains the response utility functions to send JSON responses to the client.</kbd>
+- <kbd> You can customize the response functions to handle different response formats or error messages.</kbd>
+</details>
+
+<details>
+<summary>utils.go</summary>
+
+- <kbd> It contains the utility functions for the project.</kbd>
+- <kbd> Utility functions are used to perform common tasks such as string manipulation, and data validation.</kbd>
+</details>
+
 ---
+
 ## Contributors
 
 <a href="https://github.com/OpenStruct/goeasycli/graphs/contributors">
@@ -155,6 +242,7 @@ The `loggers` folder contains the logger configuration settings for the project.
 </a>
 
 ---
+
 ## License
 
 GoEasyCLI is released under the [MIT license](LICENSE).
