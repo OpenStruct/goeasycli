@@ -99,7 +99,7 @@ After using GoEasyCLI to create a project, the folder structure will be as follo
 
 This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, seeds and utilities.
 
-## config
+### config
 The `config` folder contains the configuration settings for the project.
 
 <details>
@@ -111,7 +111,7 @@ The `config` folder contains the configuration settings for the project.
 - <kbd> You can add more configuration settings to this file as needed.</kbd>
 </details>
 
-## controllers
+### controllers
 The `controllers` folder contains the controller files for the project. The controller files handle the business logic for the project.
 
 <details>
@@ -130,7 +130,7 @@ The `controllers` folder contains the controller files for the project. The cont
 
 </details>
 
-## database
+### database
 The `database` folder contains the database configuration and connection settings for the project.
 
 <details>
@@ -143,7 +143,7 @@ The `database` folder contains the database configuration and connection setting
 
 </details>
 
-## loggers
+### loggers
 The `loggers` folder contains the logger configuration settings for the project. The project uses two loggers: Zap and Sentry.
 
 <details>
@@ -164,10 +164,10 @@ The `loggers` folder contains the logger configuration settings for the project.
 
 </details>
 
-## middlewares
+### middlewares
 The `middlewares` folder contains the middleware settings for the project.
 
-## models
+### models
 The `models` folder contains the model files for the project. The model files define the database schema for the project.
 
 <details>
@@ -177,7 +177,7 @@ The `models` folder contains the model files for the project. The model files de
 - <kbd> You can add more model files to define additional database schemas for the project.</kbd>
 </details>
 
-## routes
+### routes
 The `routes` folder contains the route files for the project. The route files define the API routes for the project.
 
 <details>
@@ -199,10 +199,10 @@ The `routes` folder contains the route files for the project. The route files de
 - <kbd> It contains the sample user routes, which define the API routes for basic CRUD operations on users.</kbd>
 </details>
 
-## structs
+### structs
 The `structs` folder contains the struct files for the project. The struct files define the data structures used in the project.
 
-## seeds
+### seeds
 The `seeds` folder contains the seed files for the project. The seed files populate the database with sample data.
 
 <details>
@@ -212,11 +212,11 @@ The `seeds` folder contains the seed files for the project. The seed files popul
 - <kbd> You can comment out the seed logic if you don't want to populate the database with sample data.</kbd>
 </details>
 
-## templates
+### templates
 The `templates` folder contains the template files for the project. The template files define the HTML templates used in the project.
 Sometimes, you may need to render HTML templates, or send emails with HTML content. In such cases, you can use the template files in this folder.
 
-## utils
+### utils
 The `utils` folder contains the utility files for the project. The utility files contain helper functions and utility functions used in the project.
 
 <details>
