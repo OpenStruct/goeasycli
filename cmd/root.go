@@ -147,14 +147,14 @@ func createProjectFiles(projectName, framework string) {
 
 	if files, ok := frameworkFiles[framework]; ok {
 		for templateName, filePath := range files {
-			utils.CreateFileFromTemplate(projectName, templateName, filePath)
+			utils.CreateFileFromTemplate(projectName, templateName, filePath, framework)
 		}
 	} else {
 		log.Fatalf("Unsupported framework: %s", framework)
 	}
 
 	for templateName, filePath := range sharedFiles {
-		utils.CreateFileFromTemplate(projectName, templateName, filePath)
+		utils.CreateFileFromTemplate(projectName, templateName, filePath, framework)
 	}
 
 	installDependencies()

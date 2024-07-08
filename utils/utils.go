@@ -87,13 +87,13 @@ func OpenDirectory(projectPath string) {
 	}
 }
 
-func CreateFileFromTemplate(projectName, templateName, filePath string) {
+func CreateFileFromTemplate(projectName, templateName, filePath, framework string) {
 	fullPath := filepath.Join(projectName, filePath)
 	fileContent, err := readTemplateFile(templateName)
 	if err != nil {
 		return
 	}
-	writeToFile(projectName, fullPath, fileContent)
+	writeToFile(projectName, fullPath, fileContent, framework)
 }
 
 func readTemplateFile(templateName string) (string, error) {
@@ -105,7 +105,7 @@ func readTemplateFile(templateName string) (string, error) {
 	return string(content), nil
 }
 
-func writeToFile(projectName, filePath, content string) {
+func writeToFile(projectName, filePath, content, framework string) {
 	file, err := os.Create(filePath)
 	if err != nil {
 		log.Fatalf("Failed to create file %s: %s", filePath, err)
@@ -115,8 +115,10 @@ func writeToFile(projectName, filePath, content string) {
 
 	data := struct {
 		ProjectName string
+		Framework   string
 	}{
 		ProjectName: projectName,
+		Framework:   framework,
 	}
 
 	// Parse the content as a template

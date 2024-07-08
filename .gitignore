@@ -2,3 +2,4 @@ dist/
 goeasycli
 test/
 test_*/
+.idea/
