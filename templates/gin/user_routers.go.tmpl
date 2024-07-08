@@ -10,6 +10,6 @@ func UserRoutes(userGroup *gin.RouterGroup) {
 	userGroup.POST("/add", user.CreateUser)
 	userGroup.GET("/list", user.GetAllUsers)
 	userGroup.GET("/:id", user.GetUserByID)
-	userGroup.DELETE("/delete/:id", user.DeleteUser)
+	userGroup.DELETE("/delete/:id", middlewares.TestAuthMiddleware(), user.DeleteUser)
 	userGroup.PATCH("/update", user.UpdateUser)
 }
