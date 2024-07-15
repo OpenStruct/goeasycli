@@ -54,10 +54,11 @@ $ARCH = if ([System.Environment]::Is64BitOperatingSystem) { "amd64" } else { "38
 $URL = "$BASE_URL/goeasycli_${CLI_VERSION}_windows_${ARCH}.zip"
 
 
-$TEMP_DIR = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
+$TEMP_DIR = [System.IO.Path]::GetTempPath() + [System.IO.Path]::GetRandomFileName()
 New-Item -ItemType Directory -Path $TEMP_DIR | Out-Null
 Write-Host "Downloading $URL..."
-Invoke-WebRequest -Uri $URL -OutFile "$TEMP_DIR\goeasycli.zip"
+$webClient = New-Object System.Net.WebClient
+$webClient.DownloadFile($URL, "$TEMP_DIR\goeasycli.zip")
 Expand-Archive -Path "$TEMP_DIR\goeasycli.zip" -DestinationPath $TEMP_DIR
 
 # Move the binary to a directory in PATH
