@@ -1,3 +1,13 @@
+# Ensure the script runs with elevated permissions
+function Ensure-Elevated {
+    if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+        Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+        exit
+    }
+}
+
+Ensure-Elevated
+
 # Exit on any error
 $ErrorActionPreference = "Stop"
 

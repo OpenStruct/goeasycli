@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var version = "0.1.0"
 var projectName string
 var framework string
 var rootCmd = &cobra.Command{
@@ -22,6 +23,7 @@ var rootCmd = &cobra.Command{
 	- Fiber
 	- Echo`,
 	Example: "goeasycli -p project_name -f  framework \neg. goeasycli -p fafa_shop_api -f gin ",
+	Version: version,
 	Run: func(cmd *cobra.Command, args []string) {
 		dir, _ := os.Getwd()
 		if framework == "" {
