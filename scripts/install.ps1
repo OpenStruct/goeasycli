@@ -45,7 +45,7 @@ if (Get-Command git -ErrorAction SilentlyContinue) {
 # Use CLI_VERSION here...
 Write-Host "Final CLI_VERSION: $CLI_VERSION"
 
-$BASE_URL = "https://github.com/noahalorwu/goeasycli/releases/download/$CLI_VERSION"
+$BASE_URL = "https://github.com/OpenStruct/goeasycli/releases/download/$CLI_VERSION"
 
 # Determine the architecture
 $ARCH = if ([System.Environment]::Is64BitOperatingSystem) { "amd64" } else { "386" }
