@@ -57,24 +57,26 @@ import (
 	"net/http"
 	"strings"
 	"{{.ProjectName}}/config"
-	"github.com/labstack/echo/v4"
-	"net/http"
+	"github.com/labstack/echo"
 )
 
-func TestAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		reqSecret := c.Request().Header.Get("x-test-key")
-		var secret string
 
-		if secret = config.CFG.V.GetString("GO_EASY_KEY"); len(strings.TrimSpace(secret)) == 0 {
-			return c.String(http.StatusUnauthorized, "Unauthorized")
+func TestAuthMiddleware() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			reqSecret := c.Request().Header.Get("x-test-key")
+			secret := config.CFG.V.GetString("GO_EASY_KEY")
+
+			if len(strings.TrimSpace(secret)) == 0 {
+				return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
+			}
+
+			if reqSecret != secret {
+				return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
+			}
+
+			return next(c)
 		}
-
-		if reqSecret != secret {
-			return c.String(http.StatusUnauthorized, "Unauthorized")
-		}
-
-		return next(c)
 	}
 }
 

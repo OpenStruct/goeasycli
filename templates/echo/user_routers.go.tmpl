@@ -3,6 +3,8 @@ package routers
 import (
 	"github.com/labstack/echo"
 	"{{ .ProjectName }}/controllers"
+	"{{ .ProjectName }}/middlewares"
+	
 )
 
 func UserRoutes(userGroup *echo.Group) {
@@ -10,6 +12,6 @@ func UserRoutes(userGroup *echo.Group) {
 	userGroup.POST("/add", user.CreateUser)
 	userGroup.GET("/list", user.GetAllUsers)
 	userGroup.GET("/:id", user.GetUserByID)
-	userGroup.DELETE("/delete/:id", user.DeleteUser)
+	userGroup.DELETE("/delete/:id", user.DeleteUser,middlewares.TestAuthMiddleware())
 	userGroup.PATCH("/update", user.UpdateUser)
 }
