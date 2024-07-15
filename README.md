@@ -19,7 +19,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/
 ### windows
 
 ```powershell
-powershell -c "irm ttps://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
+powershell -c "irm https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
 ```
 
 ## Usage
