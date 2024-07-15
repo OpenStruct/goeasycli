@@ -2,6 +2,7 @@
 $ErrorActionPreference = "Stop"
 
 $env:REPO = "OpenStruct/goeasycli"
+
 # Function to fetch the latest tag using GitHub API
 function Fetch-LatestTag {
     param (
@@ -21,6 +22,7 @@ function Fetch-LatestTag {
         }
     } catch {
         Write-Host "Error: Unable to fetch tags from the repository." -ForegroundColor Red
+        Write-Host $_.Exception.Message
         exit 1
     }
 }
@@ -53,28 +55,63 @@ $ARCH = if ([System.Environment]::Is64BitOperatingSystem) { "x86_64" } else { "i
 # Construct the download URL
 $URL = "$BASE_URL/goeasycli_windows_${ARCH}.zip"
 
-
-$TEMP_DIR = [System.IO.Path]::GetTempPath() + [System.IO.Path]::GetRandomFileName()
-New-Item -ItemType Directory -Path $TEMP_DIR | Out-Null
+$TEMP_DIR = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
+New-Item -ItemType Directory -Path $TEMP_DIR -Force | Out-Null
 Write-Host "Downloading $URL..."
-$webClient = New-Object System.Net.WebClient
-$webClient.DownloadFile($URL, "$TEMP_DIR\goeasycli.zip")
+
+try {
+    $webClient = New-Object System.Net.WebClient
+    $webClient.DownloadFile($URL, "$TEMP_DIR\goeasycli.zip")
+} catch {
+    Write-Host "Error downloading file: $_"
+    exit 1
+}
 
 # Extract the zip file
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory("$TEMP_DIR\goeasycli.zip", $TEMP_DIR)
+try {
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    [System.IO.Compression.ZipFile]::ExtractToDirectory("$TEMP_DIR\goeasycli.zip", $TEMP_DIR)
+} catch {
+    Write-Host "Error extracting zip file: $_"
+    exit 1
+}
+
+# Create the destination directory if it doesn't exist
+$destinationDir = "$env:ProgramFiles\goeasycli"
+if (!(Test-Path -Path $destinationDir)) {
+    New-Item -ItemType Directory -Path $destinationDir -Force | Out-Null
+}
 
 # Move the binary to a directory in PATH
-Move-Item -Path "$TEMP_DIR\goeasycli.exe" -Destination "$env:ProgramFiles\goeasycli\goeasycli.exe"
-[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine) + ";$env:ProgramFiles\goeasycli", [System.EnvironmentVariableTarget]::Machine)
+try {
+    Move-Item -Path "$TEMP_DIR\goeasycli.exe" -Destination "$destinationDir\goeasycli.exe" -Force
+    Write-Host "Successfully moved goeasycli.exe to $destinationDir"
+} catch {
+    Write-Host "Error moving goeasycli.exe: $_"
+    exit 1
+}
+
+# Add to PATH if not already there
+$currentPath = [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine)
+if ($currentPath -notlike "*$destinationDir*") {
+    try {
+        [Environment]::SetEnvironmentVariable("Path", "$currentPath;$destinationDir", [System.EnvironmentVariableTarget]::Machine)
+        Write-Host "Added $destinationDir to system PATH"
+    } catch {
+        Write-Host "Error updating PATH: $_"
+        Write-Host "You may need to manually add $destinationDir to your system PATH"
+    }
+} else {
+    Write-Host "$destinationDir is already in system PATH"
+}
 
 # Clean up
-Remove-Item -Path "$TEMP_DIR" -Recurse
+Remove-Item -Path $TEMP_DIR -Recurse -Force -ErrorAction SilentlyContinue
 
 # Verify installation
 if (Get-Command goeasycli -ErrorAction SilentlyContinue) {
     Write-Host "goeasycli installed successfully!"
 } else {
-    Write-Host "Installation failed."
+    Write-Host "Installation failed. Please check if $destinationDir\goeasycli.exe exists and is in your PATH."
     exit 1
 }
