@@ -48,7 +48,7 @@ Write-Host "Final CLI_VERSION: $CLI_VERSION"
 $BASE_URL = "https://github.com/OpenStruct/goeasycli/releases/download/$CLI_VERSION"
 
 # Determine the architecture
-$ARCH = if ([System.Environment]::Is64BitOperatingSystem) { "amd64" } else { "386" }
+$ARCH = if ([System.Environment]::Is64BitOperatingSystem) { "x86_64" } else { "i386" }
 
 # Construct the download URL
 $URL = "$BASE_URL/goeasycli_${CLI_VERSION}_windows_${ARCH}.zip"
