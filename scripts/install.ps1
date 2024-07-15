@@ -51,7 +51,7 @@ $BASE_URL = "https://github.com/OpenStruct/goeasycli/releases/download/$CLI_VERS
 $ARCH = if ([System.Environment]::Is64BitOperatingSystem) { "x86_64" } else { "i386" }
 
 # Construct the download URL
-$URL = "$BASE_URL/goeasycli_${CLI_VERSION}_windows_${ARCH}.zip"
+$URL = "$BASE_URL/goeasycli_windows_${ARCH}.zip"
 
 
 $TEMP_DIR = [System.IO.Path]::GetTempPath() + [System.IO.Path]::GetRandomFileName()
