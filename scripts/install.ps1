@@ -59,7 +59,10 @@ New-Item -ItemType Directory -Path $TEMP_DIR | Out-Null
 Write-Host "Downloading $URL..."
 $webClient = New-Object System.Net.WebClient
 $webClient.DownloadFile($URL, "$TEMP_DIR\goeasycli.zip")
-Expand-Archive -Path "$TEMP_DIR\goeasycli.zip" -DestinationPath $TEMP_DIR
+
+# Extract the zip file
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+[System.IO.Compression.ZipFile]::ExtractToDirectory("$TEMP_DIR\goeasycli.zip", $TEMP_DIR)
 
 # Move the binary to a directory in PATH
 Move-Item -Path "$TEMP_DIR\goeasycli.exe" -Destination "$env:ProgramFiles\goeasycli\goeasycli.exe"
