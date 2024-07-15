@@ -1,0 +1,61 @@
+package main
+
+import (
+	"context"
+	"{{ .ProjectName }}/config"
+	"{{ .ProjectName }}/database"
+	"{{ .ProjectName }}/models"
+	"{{ .ProjectName }}/routers"
+	"{{ .ProjectName }}/seeds"
+	"{{ .ProjectName }}/loggers"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
+
+func main() {
+	
+	logger.InitZaplogger()
+	logger.InitSentry()
+	// Initialize the database
+	db := database.Init()
+
+	migration := database.Migrations{
+		DB: db,
+		Models: []interface{}{
+			&models.GoEasyCLITestUser{},
+		},
+	}
+
+	database.RunMigrations(migration)
+
+	seeds.RunSeedsData(migration)
+
+	app:=routers.NewRouter()
+
+	port := config.CFG.V.GetString("SERVER_PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	go func() {
+		if err := app.Listen(":" + port); err != nil {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	// Graceful shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	{{ "<-" }}quit
+	log.Println("Shutdown Server ...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+	if err := app.ShutdownWithContext(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+	log.Println("Server exiting")
+}

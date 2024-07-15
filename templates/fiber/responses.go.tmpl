@@ -1,0 +1,97 @@
+package utils
+
+import (
+	"github.com/gofiber/fiber/v2"
+)
+
+// ErrorResponse sends an error response
+func ErrorResponse(ctx *fiber.Ctx, message string, reason error) error {
+	response := fiber.Map{
+		"status":  "error",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	return ctx.Status(fiber.StatusBadRequest).JSON(response)
+}
+
+// SuccessResponse sends a success response
+func SuccessResponse(ctx *fiber.Ctx, message string, data interface{}, total *int64) error {
+	response := fiber.Map{
+		"status":  "success",
+		"message": message,
+	}
+
+	if data != nil {
+		response["data"] = data
+	}
+
+	if total != nil {
+		response["total"] = total
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(response)
+}
+
+func SuccessResponseData(ctx *fiber.Ctx, data interface{}) error {
+	return ctx.Status(fiber.StatusOK).JSON(data)
+}
+
+// FailedResponse sends a failed response
+func FailedResponse(ctx *fiber.Ctx, message string, reason error) error {
+	response := fiber.Map{
+		"status":  "failed",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	return ctx.Status(fiber.StatusBadRequest).JSON(response)
+}
+
+// NotFoundResponse sends a not found response
+func NotFoundResponse(ctx *fiber.Ctx, message string, reason error) error {
+	response := fiber.Map{
+		"status":  "not found",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	return ctx.Status(fiber.StatusNotFound).JSON(response)
+}
+
+// UnauthorizedResponse sends an unauthorized response
+func UnauthorizedResponse(ctx *fiber.Ctx, message string, reason error) error {
+	response := fiber.Map{
+		"status":  "unauthorized",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	return ctx.Status(fiber.StatusUnauthorized).JSON(response)
+}
+
+// ForbiddenResponse sends a forbidden response
+func ForbiddenResponse(ctx *fiber.Ctx, message string, reason error) error {
+	response := fiber.Map{
+		"status":  "forbidden",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	return ctx.Status(fiber.StatusForbidden).JSON(response)
+}

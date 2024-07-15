@@ -1,0 +1,66 @@
+package main
+
+import (
+	"context"
+	"log"
+	"syscall"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
+
+	"{{ .ProjectName }}/config"
+	"{{ .ProjectName }}/database"
+	"{{ .ProjectName }}/models"
+	"{{ .ProjectName }}/routers"
+    "{{ .ProjectName }}/seeds"
+	logger "{{ .ProjectName }}/loggers"
+)
+
+func main() {
+	e := routers.NewRouter()
+	logger.InitZaplogger()
+	logger.InitSentry()
+
+	db := database.Init()
+
+	migration := database.Migrations{
+		DB: db,
+		Models: []interface{}{
+			&models.GoEasyCLITestUser{},
+		},
+	}
+
+	database.RunMigrations(migration)
+
+    // Seed initial data (if needed)
+	seeds.RunSeedsData(migration)
+
+	// Start Echo server
+	go func() {
+		port := config.CFG.V.GetString("SERVER_PORT")
+		if port == "" {
+			port = "8080"
+		}
+		addr := "localhost:" + port
+
+		// Start Echo server with configured address
+		if err := e.Start(addr); err != nil && err != http.ErrServerClosed {
+			e.Logger.Fatal("shutting down the server")
+		}
+	}()
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<- quit
+
+	log.Println("Shutdown Server ...")
+	
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	
+	if err := e.Shutdown(ctx); err != nil {
+		e.Logger.Fatal(err)
+	}
+	<-ctx.Done()
+	log.Println("Server exiting")
+}

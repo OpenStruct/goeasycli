@@ -1,0 +1,17 @@
+package routers
+
+import (
+	"github.com/labstack/echo"
+	"{{ .ProjectName }}/controllers"
+	"{{ .ProjectName }}/middlewares"
+	
+)
+
+func UserRoutes(userGroup *echo.Group) {
+	user := new(controllers.UserRepo)
+	userGroup.POST("/add", user.CreateUser)
+	userGroup.GET("/list", user.GetAllUsers)
+	userGroup.GET("/:id", user.GetUserByID)
+	userGroup.DELETE("/delete/:id", user.DeleteUser,middlewares.TestAuthMiddleware())
+	userGroup.PATCH("/update", user.UpdateUser)
+}

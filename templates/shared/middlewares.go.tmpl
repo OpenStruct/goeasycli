@@ -1,0 +1,83 @@
+package middlewares
+
+{{ if eq .Framework "gin" }}
+import (
+	"net/http"
+	"strings"
+	"{{.ProjectName}}/config"
+	"github.com/gin-gonic/gin"
+)
+
+func TestAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		reqSecret := c.Request.Header.Get("x-test-key")
+		var secret string
+
+		if secret = config.CFG.V.GetString("GO_EASY_KEY"); len(strings.TrimSpace(secret)) == 0 {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		if reqSecret != secret {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		c.Next()
+	}
+}
+
+{{ else if eq .Framework "fiber" }}
+import (
+	"net/http"
+	"strings"
+	"{{.ProjectName}}/config"
+	"github.com/gofiber/fiber/v2"
+)
+
+func TestAuthMiddleware() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		reqSecret := c.Get("x-test-key")
+		var secret string
+
+		if secret = config.CFG.V.GetString("GO_EASY_KEY"); len(strings.TrimSpace(secret)) == 0 {
+			return c.Status(http.StatusUnauthorized).SendString("Unauthorized")
+		}
+
+		if reqSecret != secret {
+			return c.Status(http.StatusUnauthorized).SendString("Unauthorized")
+		}
+
+		return c.Next()
+	}
+}
+
+{{ else if eq .Framework "echo" }}
+import (
+	"net/http"
+	"strings"
+	"{{.ProjectName}}/config"
+	"github.com/labstack/echo"
+)
+
+
+func TestAuthMiddleware() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			reqSecret := c.Request().Header.Get("x-test-key")
+			secret := config.CFG.V.GetString("GO_EASY_KEY")
+
+			if len(strings.TrimSpace(secret)) == 0 {
+				return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
+			}
+
+			if reqSecret != secret {
+				return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
+			}
+
+			return next(c)
+		}
+	}
+}
+
+{{ end }}

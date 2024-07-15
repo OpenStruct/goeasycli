@@ -1,0 +1,93 @@
+package utils
+
+import (
+	"net/http"
+
+	"github.com/labstack/echo"
+)
+
+// Error Response
+func ErrorResponse(ctx echo.Context, message string, reason error) {
+	response := map[string]interface{}{
+		"status":  "error",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	ctx.JSON(http.StatusBadRequest, response)
+}
+
+// Success Response
+func SuccessResponse(ctx echo.Context, message string, data interface{}, total *int64) {
+	response := map[string]interface{}{
+		"status":  "success",
+		"message": message,
+	}
+	if data != nil {
+		response["data"] = data
+	}
+
+	if total != nil {
+		response["total"] = total
+	}
+	ctx.JSON(http.StatusOK, response)
+}
+
+// Failed Response
+func FailedResponse(ctx echo.Context, message string, reason error) {
+	response := map[string]interface{}{
+		"status":  "failed",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	ctx.JSON(http.StatusBadRequest, response)
+}
+
+// NotFound Response
+func NotFoundResponse(ctx echo.Context, message string, reason error) {
+	response := map[string]interface{}{
+		"status":  "not found",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+	ctx.JSON(http.StatusNotFound, response)
+}
+
+// Unauthorized Response
+func UnauthorizedResponse(ctx echo.Context, message string, reason error) {
+
+	response := map[string]interface{}{
+		"status":  "unauthorized",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	ctx.JSON(http.StatusUnauthorized, response)
+}
+
+// Forbidden Response
+func ForbiddenResponse(ctx echo.Context, message string, reason error) {
+	response := map[string]interface{}{
+		"status":  "forbidden",
+		"message": message,
+	}
+
+	if reason != nil {
+		response["reason"] = reason.Error()
+	}
+
+	ctx.JSON(http.StatusForbidden, response)
+}

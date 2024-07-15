@@ -1,0 +1,15 @@
+package routers
+
+import (
+	"{{ .ProjectName }}/controllers"
+	"github.com/gofiber/fiber/v2"
+)
+
+func UserRoutes(app fiber.Router) {
+	user := new(controllers.UserController)
+	app.Post("/add", user.CreateUser)
+	app.Get("/list", user.GetAllUsers)
+	app.Get("/:id", user.GetUserByID)
+	app.Patch("/update", user.UpdateUser)
+	app.Delete("/delete/:id", middlewares.TestAuthMiddleware(), user.DeleteUser)
+}
