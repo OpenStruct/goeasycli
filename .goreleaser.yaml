@@ -10,10 +10,10 @@ before:
 builds:
 - id: goeasycli
   ldflags:
-    - -X main.version={{ .Env.TAG_VERSION }}
+    - -X goeasycli/cmd.version={{ .Env.TAG_VERSION }}
   hooks:
     pre: echo "Building version {{ .Env.TAG_VERSION }}"
-    post: echo "Build completed for version {{ .Env.TAG_VERSION }}"
+
   env:
     - CGO_ENABLED=0
   goos:
