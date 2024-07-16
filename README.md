@@ -17,6 +17,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/
 ```
 
 ### windows
+> **_NOTE:_**  Please run powershell in administrator mode.
 
 ```powershell
 powershell -c "irm https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
@@ -54,6 +55,12 @@ goeasycli -p fafa_shop_api -f fiber
 ```
 
 This command creates a new Go project named `fafa_shop_api` using the Fiber web framework.
+
+Run the project with the command below:
+
+```bash
+go run .
+```
 
 ---
 
