@@ -87,13 +87,18 @@ func OpenDirectory(projectPath string) {
 	}
 }
 
-func CreateFileFromTemplate(projectName, templateName, filePath, framework string) {
+func CreateFileFromTemplate(projectName, templateName, filePath, framework,repoUrl string) {
 	fullPath := path.Join(projectName, filePath)
 	fileContent, err := readTemplateFile(templateName)
 	if err != nil {
 		return
 	}
-	writeToFile(projectName, fullPath, fileContent, framework)
+	
+	if repoUrl !=""{
+		projectName = repoUrl
+	}
+	println(templateName)
+	writeToFile(projectName, fullPath, fileContent, framework, repoUrl)
 }
 
 func readTemplateFile(templateName string) (string, error) {
@@ -105,7 +110,7 @@ func readTemplateFile(templateName string) (string, error) {
 	return string(content), nil
 }
 
-func writeToFile(projectName, filePath, content, framework string) {
+func writeToFile(projectName, filePath, content, framework, repoUrl string) {
 	file, err := os.Create(filePath)
 	if err != nil {
 		log.Fatalf("Failed to create file %s: %s", filePath, err)
@@ -116,9 +121,11 @@ func writeToFile(projectName, filePath, content, framework string) {
 	data := struct {
 		ProjectName string
 		Framework   string
+		RepoUrl string
 	}{
 		ProjectName: projectName,
 		Framework:   framework,
+		RepoUrl: repoUrl,
 	}
 
 	// Parse the content as a template
@@ -137,12 +144,27 @@ func SetTemplatesFS(fs embed.FS) {
 	templates = fs
 }
 
-func PromptForFramework() string {
+
+func PromptForInput(msg string) string {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Please choose a framework (gin,fibe,echo):")
-	framework, _ := reader.ReadString('\n')
-	framework = strings.TrimSpace(framework)
-	return framework
+	fmt.Println(msg)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("An error occurred while reading input. Please try again", err)
+		return ""
+	}
+	return strings.TrimSpace(input)
+}
+
+// implement this later
+func PromptForInputWithValidation(prompt string, validate func(string) bool) string {
+    for {
+        input := PromptForInput(prompt)
+        if validate(input) {
+            return input
+        }
+        fmt.Println("Invalid input. Please try again.")
+    }
 }
 
 func RunCommand(name string, args ...string) error {
@@ -150,4 +172,56 @@ func RunCommand(name string, args ...string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
+}
+
+
+func CleanRepoURL(url string) string {
+	// Remove "https://" if present
+	url = strings.TrimPrefix(url, "https://")
+	
+	// Remove "http://" if present (just in case)
+	url = strings.TrimPrefix(url, "http://")
+	
+	// Remove "www." if present
+	url = strings.TrimPrefix(url, "www.")
+
+	// Remove "https://www." if present
+	url = strings.TrimPrefix(url, "https://www.")
+	
+	return url
+}
+
+// This function is used to create stubborn templates eg. github actions
+func CopyTemplateFile(libraryName,templateName, outputPath string) error {
+	
+    content, err := readTemplateFile(templateName)
+    if err != nil {
+        return fmt.Errorf("error reading template file: %w", err)
+    }
+
+	fullPath := path.Join(libraryName, outputPath)
+	
+	er := os.MkdirAll(path.Dir(fullPath), os.ModePerm)
+    if er != nil {
+        return fmt.Errorf("error creating directories: %w", er)
+    }
+
+    // Create the output file
+    file, err := os.Create(fullPath)
+    if err != nil {
+        return fmt.Errorf("error creating output file: %w", err)
+    }
+    defer file.Close()
+
+    // Write the content to the output file
+    _, err = file.WriteString(content)
+    if err != nil {
+        return fmt.Errorf("error writing to output file: %w", err)
+    }
+
+    // Verify file exists
+    if _, err := os.Stat(fullPath); os.IsNotExist(err) {
+        return fmt.Errorf("file was not created at %s", fullPath)
+    }
+	return nil
 }

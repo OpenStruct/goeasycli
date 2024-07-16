@@ -16,6 +16,8 @@ var (
 	version     = "dev"
 	projectName string
 	framework   string
+	repoUrl     string
+	libraryName string
 )
 
 var rootCmd = &cobra.Command{
@@ -28,40 +30,18 @@ var rootCmd = &cobra.Command{
 	Example: "goeasycli -p project_name -f  framework \neg. goeasycli -p fafa_shop_api -f gin ",
 	Version: version,
 	Run: func(cmd *cobra.Command, args []string) {
-		dir, _ := os.Getwd()
-		if framework == "" {
-			framework = utils.PromptForFramework()
+		if projectName != "" && libraryName != "" {
+			fmt.Println("Both project and library flags are present. Prioritizing project creation.")
+			createProject()
+		} else if projectName != "" {
+			createProject()
+		} else if libraryName != "" {
+			createLibrary()
+		} else {
+			fmt.Println("Please specify either a project name (-p) or a library name (-l)")
+			cmd.Usage()
+			os.Exit(1)
 		}
-
-		exists := utils.IsFramework(framework)
-
-		for {
-			if !exists {
-				fmt.Printf("framework entered '%s' does not exist.\n", framework)
-				framework = utils.PromptForFramework()
-				exists = utils.IsFramework(framework)
-			} else {
-				break
-			}
-		}
-
-		fullpath := fmt.Sprintf("%s/%s", dir, projectName)
-
-		// check if that directory already exist?
-		for {
-			if _, err := os.Stat(fullpath); err == nil {
-				fmt.Printf("Project '%s' already exists. Please enter a new project name: ", projectName)
-				reader := bufio.NewReader(os.Stdin)
-				newName, _ := reader.ReadString('\n')
-				projectName = strings.TrimSpace(newName)
-				fullpath = fmt.Sprintf("%s/%s", dir, projectName)
-			} else {
-				break
-			}
-		}
-
-		createProjectStructure()
-		utils.OpenDirectory(fullpath)
 	},
 }
 
@@ -74,8 +54,139 @@ TODOS:
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&projectName, "project", "p", "", "Name of the project")
 	rootCmd.PersistentFlags().StringVarP(&framework, "framework", "f", "", "web frameworks supported: (gin,fiber)")
-	rootCmd.MarkPersistentFlagRequired("project")
+	rootCmd.PersistentFlags().StringVarP(&libraryName, "library", "l", "", "Name of the library to create")
+	rootCmd.PersistentFlags().StringVarP(&repoUrl, "repo", "r", "", "Repository URL for the library")
+	// rootCmd.MarkPersistentFlagRequired("project")
 
+}
+
+func createProject() {
+	dir, _ := os.Getwd()
+
+	if strings.HasPrefix(projectName, "-") {
+		fmt.Println("Error: Project name cannot start with a hyphen (-)")
+		os.Exit(1)
+	}
+
+	if framework == "" {
+		framework = utils.PromptForInput("Please choose a framework (gin,fibe,echo):")
+	}
+
+	exists := utils.IsFramework(framework)
+
+	for {
+		if !exists {
+			fmt.Printf("framework entered '%s' does not exist.\n", framework)
+			framework = utils.PromptForInput("Please choose a framework (gin,fibe,echo):")
+			exists = utils.IsFramework(framework)
+		} else {
+			break
+		}
+	}
+
+	fullpath := fmt.Sprintf("%s/%s", dir, projectName)
+
+	// check if that directory already exist?
+	for {
+		if _, err := os.Stat(fullpath); err == nil {
+			fmt.Printf("Project '%s' already exists. Please enter a new project name: ", projectName)
+			reader := bufio.NewReader(os.Stdin)
+			newName, _ := reader.ReadString('\n')
+			projectName = strings.TrimSpace(newName)
+			fullpath = fmt.Sprintf("%s/%s", dir, projectName)
+		} else {
+			break
+		}
+	}
+
+	createProjectStructure()
+	utils.OpenDirectory(fullpath)
+}
+
+func createLibrary() {
+	dir, _ := os.Getwd()
+
+	// Check if library name starts with a hyphen
+	for strings.HasPrefix(libraryName, "-") {
+		if libraryName != "" {
+			fmt.Println("Error: Library name cannot start with a hyphen (-)")
+		}
+		libraryName = utils.PromptForInput("Please provide the library name: ")
+	}
+
+	if repoUrl == "" {
+		repoUrl = utils.PromptForInput("Please provide the repository URL")
+	}
+
+	repoUrl = utils.CleanRepoURL(repoUrl)
+
+	fullpath := filepath.Join(dir, libraryName)
+
+	// Check if that directory already exists
+	for {
+		if _, err := os.Stat(fullpath); err == nil {
+			fmt.Printf("Library '%s' already exists. Please enter a new library name: ", libraryName)
+
+			libraryName = utils.PromptForInput("")
+
+			// Check if the new library name starts with a hyphen
+			if strings.HasPrefix(libraryName, "-") {
+				fmt.Println("Error: Library name cannot start with a hyphen (-)")
+				continue
+			}
+
+			fullpath = filepath.Join(dir, libraryName)
+		} else {
+			break
+		}
+	}
+
+	createLibraryStructure(libraryName, repoUrl)
+	utils.OpenDirectory(fullpath)
+
+}
+
+func createLibraryStructure(lName, repo string) {
+	dirs := []string{
+		"database",
+		"email",
+		".github/workflows",
+		"loggers",
+		"config",
+	}
+
+	for _, dir := range dirs {
+		path := filepath.Join(libraryName, dir)
+		if err := os.MkdirAll(path, os.ModePerm); err != nil {
+			log.Fatalf("Failed to create directory %s: %s", path, err)
+		}
+	}
+
+	createLibraryProject(libraryName, repoUrl)
+
+}
+
+func createLibraryProject(lName, repo string) {
+	
+	libraryFiles := map[string]string{
+		"library/go.mod.tmpl": "go.mod",
+		"library/emails.go.tmpl":  "email/emails.go",
+		"shared/config.go.tmpl":   "config/config.go",
+		"shared/database.go.tmpl": "database/database.go",
+		"shared/zap.go.tmpl":      "loggers/zap.go",
+	}
+
+	for templateName, filePath := range libraryFiles {
+		utils.CreateFileFromTemplate(lName, templateName, filePath, "", repo)
+	}
+
+	err := utils.CopyTemplateFile(lName, "library/workflow.tmpl", ".github/workflows/goeasycli_tag.yml")
+	if err != nil {
+		log.Fatalf("Failed to copy template file: %v", err)
+	}
+
+	os.Chdir(lName)
+	utils.RunCommand("go", "mod", "tidy")
 }
 
 func createProjectStructure() {
@@ -152,14 +263,14 @@ func createProjectFiles(projectName, framework string) {
 
 	if files, ok := frameworkFiles[framework]; ok {
 		for templateName, filePath := range files {
-			utils.CreateFileFromTemplate(projectName, templateName, filePath, framework)
+			utils.CreateFileFromTemplate(projectName, templateName, filePath, framework, "")
 		}
 	} else {
 		log.Fatalf("Unsupported framework: %s", framework)
 	}
 
 	for templateName, filePath := range sharedFiles {
-		utils.CreateFileFromTemplate(projectName, templateName, filePath, framework)
+		utils.CreateFileFromTemplate(projectName, templateName, filePath, framework, "")
 	}
 
 	installDependencies()
