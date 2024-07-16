@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"path/filepath"
+	"path"
 	"runtime"
 	"slices"
 	"strings"
@@ -88,7 +88,7 @@ func OpenDirectory(projectPath string) {
 }
 
 func CreateFileFromTemplate(projectName, templateName, filePath, framework string) {
-	fullPath := filepath.Join(projectName, filePath)
+	fullPath := path.Join(projectName, filePath)
 	fileContent, err := readTemplateFile(templateName)
 	if err != nil {
 		return
@@ -97,7 +97,7 @@ func CreateFileFromTemplate(projectName, templateName, filePath, framework strin
 }
 
 func readTemplateFile(templateName string) (string, error) {
-	templatePath := filepath.Join("templates", templateName)
+	templatePath := path.Join("templates", templateName)
 	content, err := templates.ReadFile(templatePath)
 	if err != nil {
 		return "", fmt.Errorf("failed to read template file %s: %w", templatePath, err)

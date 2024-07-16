@@ -6,7 +6,7 @@ import (
 	"goeasycli/utils"
 )
 
-//go:embed templates
+//go:embed templates/*
 var templates embed.FS
 
 func main() {
