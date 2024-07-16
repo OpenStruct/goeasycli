@@ -12,9 +12,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var version = "0.1.0"
-var projectName string
-var framework string
+var (
+	version     = "dev"
+	projectName string
+	framework   string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "goeasycli",
 	Short: "CLI tool to create a Gin project",
