@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 	"runtime"
 	"slices"
 	"strings"
@@ -87,14 +88,14 @@ func OpenDirectory(projectPath string) {
 	}
 }
 
-func CreateFileFromTemplate(projectName, templateName, filePath, framework,repoUrl string) {
+func CreateFileFromTemplate(projectName, templateName, filePath, framework, repoUrl string) {
 	fullPath := path.Join(projectName, filePath)
 	fileContent, err := readTemplateFile(templateName)
 	if err != nil {
 		return
 	}
-	
-	if repoUrl !=""{
+
+	if repoUrl != "" {
 		projectName = repoUrl
 	}
 	println(templateName)
@@ -121,11 +122,11 @@ func writeToFile(projectName, filePath, content, framework, repoUrl string) {
 	data := struct {
 		ProjectName string
 		Framework   string
-		RepoUrl string
+		RepoUrl     string
 	}{
 		ProjectName: projectName,
 		Framework:   framework,
-		RepoUrl: repoUrl,
+		RepoUrl:     repoUrl,
 	}
 
 	// Parse the content as a template
@@ -144,7 +145,6 @@ func SetTemplatesFS(fs embed.FS) {
 	templates = fs
 }
 
-
 func PromptForInput(msg string) string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println(msg)
@@ -158,13 +158,13 @@ func PromptForInput(msg string) string {
 
 // implement this later
 func PromptForInputWithValidation(prompt string, validate func(string) bool) string {
-    for {
-        input := PromptForInput(prompt)
-        if validate(input) {
-            return input
-        }
-        fmt.Println("Invalid input. Please try again.")
-    }
+	for {
+		input := PromptForInput(prompt)
+		if validate(input) {
+			return input
+		}
+		fmt.Println("Invalid input. Please try again.")
+	}
 }
 
 func RunCommand(name string, args ...string) error {
@@ -174,54 +174,74 @@ func RunCommand(name string, args ...string) error {
 	return cmd.Run()
 }
 
-
 func CleanRepoURL(url string) string {
-	// Remove "https://" if present
+	// Remove "https://", "http://", "www.", "https://www." if present
 	url = strings.TrimPrefix(url, "https://")
-	
-	// Remove "http://" if present (just in case)
 	url = strings.TrimPrefix(url, "http://")
-	
-	// Remove "www." if present
 	url = strings.TrimPrefix(url, "www.")
-
-	// Remove "https://www." if present
 	url = strings.TrimPrefix(url, "https://www.")
-	
+
+	// Remove trailing "/"
+	url = strings.TrimSuffix(url, "/")
+
 	return url
 }
 
 // This function is used to create stubborn templates eg. github actions
-func CopyTemplateFile(libraryName,templateName, outputPath string) error {
-	
-    content, err := readTemplateFile(templateName)
-    if err != nil {
-        return fmt.Errorf("error reading template file: %w", err)
-    }
+func CopyTemplateFile(libraryName, templateName, outputPath string) error {
+
+	content, err := readTemplateFile(templateName)
+	if err != nil {
+		return fmt.Errorf("error reading template file: %w", err)
+	}
 
 	fullPath := path.Join(libraryName, outputPath)
-	
+
 	er := os.MkdirAll(path.Dir(fullPath), os.ModePerm)
-    if er != nil {
-        return fmt.Errorf("error creating directories: %w", er)
-    }
+	if er != nil {
+		return fmt.Errorf("error creating directories: %w", er)
+	}
 
-    // Create the output file
-    file, err := os.Create(fullPath)
-    if err != nil {
-        return fmt.Errorf("error creating output file: %w", err)
-    }
-    defer file.Close()
+	// Create the output file
+	file, err := os.Create(fullPath)
+	if err != nil {
+		return fmt.Errorf("error creating output file: %w", err)
+	}
+	defer file.Close()
 
-    // Write the content to the output file
-    _, err = file.WriteString(content)
-    if err != nil {
-        return fmt.Errorf("error writing to output file: %w", err)
-    }
+	// Write the content to the output file
+	_, err = file.WriteString(content)
+	if err != nil {
+		return fmt.Errorf("error writing to output file: %w", err)
+	}
 
-    // Verify file exists
-    if _, err := os.Stat(fullPath); os.IsNotExist(err) {
-        return fmt.Errorf("file was not created at %s", fullPath)
-    }
+	// Verify file exists
+	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
+		return fmt.Errorf("file was not created at %s", fullPath)
+	}
 	return nil
+}
+
+func CreateProjectDirectories(projectName string, dirs []string) error {
+	for _, dir := range dirs {
+		path := filepath.Join(projectName, dir)
+		err := os.MkdirAll(path, os.ModePerm)
+		if err != nil {
+			return fmt.Errorf("failed to create directory %s: %w", path, err)
+		}
+	}
+	return nil
+}
+
+func InstallDependencies(projectName string) {
+	os.Chdir(projectName)
+	RunCommand("go", "mod", "tidy")
+}
+
+func ValidateInputValue(inputName, inputValue string) string {
+	for strings.HasPrefix(inputValue, "-") {
+		fmt.Printf("Error: %s name cannot start with a hyphen (-)\n", inputName)
+		inputValue = PromptForInput(fmt.Sprintf("Please provide the %s name: ", inputName))
+	}
+	return inputValue
 }

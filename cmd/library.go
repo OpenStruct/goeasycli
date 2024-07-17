@@ -1,27 +1,71 @@
 package cmd
 
-// import (
-// 	"fmt"
-// 	"os"
-// 	"os/exec"
-// )
+import (
+	"fmt"
+	"goeasycli/utils"
+	"log"
+	"os"
+	"path/filepath"
+)
 
-// func addLibraryToProject() error {
-// 	// Check if we're in a Go project
-// 	if _, err := os.Stat("go.mod"); os.IsNotExist(err) {
-// 		return fmt.Errorf("go.mod file not found. Are you in a Go project directory?")
-// 	}
+func createLibrary(libraryName, repo string) {
+	dir, _ := os.Getwd()
 
-// 	// Add the library using go get
-// 	cmd := exec.Command("go", "get", repoURL)
-// 	cmd.Stdout = os.Stdout
-// 	cmd.Stderr = os.Stderr
+	// Check if library name starts with a hyphen
+	libraryName = utils.ValidateInputValue("library", libraryName)
 
-// 	err := cmd.Run()
-// 	if err != nil {
-// 		return fmt.Errorf("failed to add library: %v", err)
-// 	}
+	fullpath := filepath.Join(dir, libraryName)
 
-// 	fmt.Printf("Successfully added library %s from %s\n", libraryName, repoURL)
-// 	return nil
-// }
+	// Check if that directory already exists
+
+	if _, err := os.Stat(fullpath); err == nil {
+		fmt.Printf("Library '%s' already exists.", libraryName)
+		libraryName = utils.PromptForInput("Please enter a new library name: ")
+		libraryName = utils.ValidateInputValue("library", libraryName)
+		fullpath = filepath.Join(dir, libraryName)
+	}
+
+	if repo == "" {
+		repo = utils.PromptForInput("Please provide the repository URL")
+	}
+
+	repo = utils.CleanRepoURL(repo)
+
+	createLibraryProject(libraryName, repo)
+	utils.OpenDirectory(fullpath)
+
+}
+
+func createLibraryProject(lName, repo string) {
+	dirs := []string{
+		"database",
+		"email",
+		".github/workflows",
+		"loggers",
+		"config",
+	}
+
+	err := utils.CreateProjectDirectories(lName, dirs)
+	if err != nil {
+		log.Printf("Error creating project directories: %v", err)
+	}
+
+	libraryFiles := map[string]string{
+		"library/go.mod.tmpl":     "go.mod",
+		"library/emails.go.tmpl":  "email/emails.go",
+		"shared/config.go.tmpl":   "config/config.go",
+		"shared/database.go.tmpl": "database/database.go",
+		"shared/zap.go.tmpl":      "loggers/zap.go",
+	}
+
+	for templateName, filePath := range libraryFiles {
+		utils.CreateFileFromTemplate(lName, templateName, filePath, "", repo)
+	}
+
+	err = utils.CopyTemplateFile(lName, "library/workflow.tmpl", ".github/workflows/goeasycli_tag.yml")
+	if err != nil {
+		log.Fatalf("Failed to copy template file: %v", err)
+	}
+
+	utils.InstallDependencies(lName)
+}
