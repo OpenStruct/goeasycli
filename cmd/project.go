@@ -92,11 +92,13 @@ func createProjectFiles(projectName, framework string) {
 			"gin/responses.go.tmpl":         "utils/responses.go",
 		},
 		"fiber": {
-			"fiber/user_controller.go.tmpl": "controllers/user.go",
-			"fiber/routers.go.tmpl":         "routers/routers.go",
-			"fiber/user_routers.go.tmpl":    "routers/user.go",
-			"fiber/main.go.tmpl":            "main.go",
-			"fiber/responses.go.tmpl":       "utils/responses.go",
+			"fiber/main.go.tmpl":              "main.go",
+			"fiber/health_controller.go.tmpl": "controllers/health.go",
+			"fiber/user_controller.go.tmpl":   "controllers/user.go",
+			"fiber/routers.go.tmpl":           "routers/routers.go",
+			"fiber/user_routers.go.tmpl":      "routers/user.go",
+			"fiber/health_router.go.tmpl":     "routers/health.go",
+			"fiber/responses.go.tmpl":         "utils/responses.go",
 		},
 		"echo": {
 			"echo/main.go.tmpl":              "main.go",

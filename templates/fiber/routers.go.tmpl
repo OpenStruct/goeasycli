@@ -4,10 +4,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"{{ .ProjectName }}/config"
-	"{{ .ProjectName }}/utils"
+	"github.com/gofiber/swagger"
+	_ "{{ .ProjectName }}/docs"
 )
 
+// @title Project API Documentation
+// @version 1.0
+
+// @host localhost:8080
+// @BasePath /v1
 func NewRouter() *fiber.App {
 	app := fiber.New()
 
@@ -19,14 +24,7 @@ func NewRouter() *fiber.App {
 
 	app.Use(logger.New())
 
-	// Health check route
-	app.Get("/health", func(c *fiber.Ctx) error {
-		response := fiber.Map{
-			"status":      "I am breathing!",
-			"environment": config.CFG.V.GetString("APP_ENV"),
-		}
-		return utils.SuccessResponseData(c, response)
-	})
+	HealthRoute(app)
 
 	v1 := app.Group("/v1")
 	{
@@ -35,6 +33,8 @@ func NewRouter() *fiber.App {
 			UserRoutes(userGroup)
 		}
 	}
+
+	app.Get("/swagger/*", swagger.New(swagger.Config{}))
 
 	return app
 }

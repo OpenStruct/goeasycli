@@ -8,8 +8,17 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserController struct {}
+type UserController struct{}
 
+// CreateUser godoc
+// @Summary Create a new user
+// @Description Create a new user
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param user body models.GoEasyCLITestUser true "User object"
+// @Success 200 {object} models.GoEasyCLITestUser
+// @Router /user/add [post]
 func (repo *UserController) CreateUser(c *fiber.Ctx) error {
 	var user models.GoEasyCLITestUser
 	if err := c.BodyParser(&user); err != nil {
@@ -21,6 +30,13 @@ func (repo *UserController) CreateUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(user)
 }
 
+// GetAllUsers godoc
+// @Summary Get all users
+// @Description Get all users
+// @Tags user
+// @Produce  json
+// @Success 200 {object} []models.GoEasyCLITestUser
+// @Router /user/list [get]
 func (repo *UserController) GetAllUsers(c *fiber.Ctx) error {
 	users, err := models.GetAllUsers(c.Context(), database.Db)
 	if err != nil {
@@ -29,6 +45,14 @@ func (repo *UserController) GetAllUsers(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(users)
 }
 
+// GetUserByID godoc
+// @Summary Get user by ID
+// @Description Get user by ID
+// @Tags user
+// @Produce  json
+// @Param id path string true "User ID"
+// @Success 200 {object} models.GoEasyCLITestUser
+// @Router /user/{id} [get]
 func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 	user, err := models.GetUserByID(c.Context(), database.Db, id)
@@ -41,6 +65,15 @@ func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(user)
 }
 
+// UpdateUser godoc
+// @Summary Update user
+// @Description Update user
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param user body models.GoEasyCLITestUser true "User object"
+// @Success 200 {object} models.GoEasyCLITestUser
+// @Router /user/update [patch]
 func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 	var user models.GoEasyCLITestUser
 
@@ -48,7 +81,7 @@ func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "cannot parse JSON"})
 	}
 
-	if  user.ID == 0 {
+	if user.ID == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"message": "user id missing"})
 	}
 
@@ -58,6 +91,13 @@ func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(user)
 }
 
+// DeleteUser godoc
+// @Summary Delete user
+// @Description Delete user
+// @Tags user
+// @Param id path string true "User ID"
+// @Success 200 {string} string	"User deleted successfully"
+// @Router /user/delete/{id} [delete]
 func (repo *UserController) DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	if err := models.DeleteUser(c.Context(), database.Db, id); err != nil {

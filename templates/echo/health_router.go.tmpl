@@ -5,11 +5,6 @@ import (
 	"{{ .ProjectName }}/controllers"
 )
 
-// Health godoc
-// @Summary Check the health of the application
-// @Description Check the health of the application
-// @Tags health
-// @Router /health [get]
 func Health(router *echo.Echo) {
 	router.GET("/health", controllers.Health)
 }

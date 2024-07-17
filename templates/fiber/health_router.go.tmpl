@@ -1,0 +1,12 @@
+package routers
+
+import (
+	"{{ .ProjectName }}/controllers"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+func HealthRoute(app fiber.Router) {
+	health := new(controllers.HealthController)
+	app.Get("/health", health.Health)
+}
