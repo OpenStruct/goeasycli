@@ -1,19 +1,19 @@
 name: goreleaser
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
-    tags:
-      - "v*.*.*"
 
 permissions:
   contents: write
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Release:')
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,21 +53,19 @@ jobs:
           echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
 
       - name: Create Tag
-        if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git tag ${{ env.NEXT_TAG }}
 
       - name: Push Tag
-        if: github.ref == 'refs/heads/main'
         env:
           NEXT_TAG: ${{ env.NEXT_TAG }}
         run: |
           git push origin $NEXT_TAG || (echo "Tag $NEXT_TAG already exists, retrying with next patch version" && exit 1)
 
       - name: Retry with next patch version if tag already exists
-        if: github.ref == 'refs/heads/main' && failure()
+        if: failure()
         run: |
           git fetch --tags
           LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
@@ -94,4 +92,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_VERSION: ${{ env.NEXT_TAG }}
-
