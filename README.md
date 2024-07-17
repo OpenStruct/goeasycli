@@ -112,6 +112,8 @@ go run .
 
 After running the project, you can access the API documentation at `http://localhost:3000/swagger/index.html`.
 
+More details on how to use the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
+
 ---
 
 ## 🗂️ Folder Structure
