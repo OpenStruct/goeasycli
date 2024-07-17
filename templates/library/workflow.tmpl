@@ -1,0 +1,79 @@
+name: GoEasyCLI Autotag Action
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21.6'
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Fetch all tags
+      run: git fetch --tags
+
+    - name: Get latest tag
+      id: get_latest_tag
+      run: |
+        TAG=$(git tag --sort=-v:refname | head -n 1)
+        echo "LATEST_TAG=$TAG" >> $GITHUB_ENV
+
+    - name: Calculate next tag
+      id: calc_next_tag
+      run: |
+        LATEST_TAG=${{ env.LATEST_TAG }}
+        if [[ -z "$LATEST_TAG" ]]; then
+          NEXT_TAG="v0.1.0"
+        elif [[ "$LATEST_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+          MAJOR=${BASH_REMATCH[1]}
+          MINOR=${BASH_REMATCH[2]}
+          PATCH=${BASH_REMATCH[3]}
+          NEXT_PATCH=$((PATCH + 1))
+          NEXT_TAG="v$MAJOR.$MINOR.$NEXT_PATCH"
+        else
+          echo "LATEST_TAG does not match pattern: $LATEST_TAG"
+          exit 1
+        fi
+        echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
+
+    - name: Create Tag
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git tag ${{ env.NEXT_TAG }}
+
+    - name: Push Tag
+      if: github.ref == 'refs/heads/main'
+      env:
+        NEXT_TAG: ${{ env.NEXT_TAG }}
+      run: |
+        git push origin $NEXT_TAG || (echo "Tag $NEXT_TAG already exists, retrying with next patch version" && exit 1)
+
+    - name: Retry with next patch version if tag already exists
+      if: github.ref == 'refs/heads/main' && failure()
+      run: |
+        git fetch --tags
+        LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+        if [[ "$LATEST_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+          MAJOR=${BASH_REMATCH[1]}
+          MINOR=${BASH_REMATCH[2]}
+          PATCH=${BASH_REMATCH[3]}
+          NEXT_PATCH=$((PATCH + 1))
+          NEXT_TAG="v$MAJOR.$MINOR.$NEXT_PATCH"
+          echo "Retrying with tag $NEXT_TAG"
+          git tag $NEXT_TAG
+          git push origin $NEXT_TAG
+        else
+          echo "LATEST_TAG does not match pattern: $LATEST_TAG"
+          exit 1
+        fi
