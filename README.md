@@ -4,48 +4,19 @@
 </h1>
 </div>
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
 <div align="center">
 
-[![language][languages-shield]](https://golang.org)
-![OS][os-shield]
-[![Golang][releases]][repo-url]
-![GitHub release date][release-date]
-![GitHub last commit][last-commit]
-[![Golang][project-download]][downloads-url]
-[![Contributors][contributors-shield]][contributors-url]
-[![License][license-shield]][license-url]
-[![Free][free-for-dev]](#-license)
+[![language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org)
+![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)
+![Golang](https://img.shields.io/github/v/release/OpenStruct/goeasycli)
+![GitHub release date](https://img.shields.io/github/release-date/OpenStruct/goeasycli)
+![GitHub last commit](https://img.shields.io/github/last-commit/OpenStruct/goeasycli)
+![Golang](https://img.shields.io/github/downloads/OpenStruct/goeasycli/total)
+![Contributors](https://img.shields.io/github/contributors/OpenStruct/goeasycli?color=7A3EF4)
+![License](https://img.shields.io/github/license/OpenStruct/goeasycli?color=9565F6)
+[![Free](https://img.shields.io/badge/free_for_non_commercial_use-brightgreen)](#-license)
 
 </div>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[releases]: https://img.shields.io/github/v/release/OpenStruct/goeasycli
-[repo-url]: https://github.com/OpenStruct/goeasycli
-[GitHub-Version-shield]: https://img.shields.io/github/v/release/OpenStruct/goeasycli
-[project-download]: https://img.shields.io/github/downloads/OpenStruct/goeasycli/total
-[downloads-url]: https://img.shields.io/github/downloads/OpenStruct/goeasycli/total
-[contributors-shield]: https://img.shields.io/github/contributors/OpenStruct/goeasycli?color=7A3EF4
-[license-shield]: https://img.shields.io/github/license/OpenStruct/goeasycli?color=9565F6
-[codecov-shield]: https://img.shields.io/codecov/c/github/OpenStruct/goeasycli
-[codecov-url]: https://codecov.io/gh/OpenStruct/goeasycli
-[contributors-url]: ''
-[license-url]: https://opensource.org/licenses/MIT
-[languages-shield]: https://img.shields.io/badge/language-go-blue.svg
-[os-shield]: https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4
-[release-date]: https://img.shields.io/github/release-date/OpenStruct/goeasycli
-[last-commit]: https://img.shields.io/github/last-commit/OpenStruct/goeasycli
-[free-for-dev]: https://img.shields.io/badge/free_for_non_commercial_use-brightgreen
 
 ---
 
