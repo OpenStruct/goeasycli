@@ -1,10 +1,19 @@
 package routers
 
 import (
+	_ "{{ .ProjectName }}/docs"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title Project API Documentation
+// @version 1.0
+
+// @host localhost:8080
+// @BasePath /v1
 func NewRouter() *gin.Engine {
 	router := gin.Default()
 	config := cors.DefaultConfig()
@@ -20,5 +29,7 @@ func NewRouter() *gin.Engine {
 			UserRoutes(userGroup)
 		}
 	}
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://localhost:8080/swagger/doc.json"), ginSwagger.DefaultModelsExpandDepth(-1)))
+
 	return router
 }

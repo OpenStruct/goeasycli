@@ -108,6 +108,10 @@ The next step is to run your new project:
 go run .
 ```
 
+## 😺 API Documentation
+
+After running the project, you can access the API documentation at `http://localhost:3000/swagger/index.html`.
+
 ---
 
 ## 🗂️ Folder Structure
