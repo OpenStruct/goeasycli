@@ -4,8 +4,6 @@
 </h1>
 </div>
 
-<div align="center">
-
 [![language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org)
 ![OS](https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4)
 ![Golang](https://img.shields.io/github/v/release/OpenStruct/goeasycli)
@@ -15,8 +13,6 @@
 ![Contributors](https://img.shields.io/github/contributors/OpenStruct/goeasycli?color=7A3EF4)
 ![License](https://img.shields.io/github/license/OpenStruct/goeasycli?color=9565F6)
 [![Free](https://img.shields.io/badge/free_for_non_commercial_use-brightgreen)](#-license)
-
-</div>
 
 ---
 
