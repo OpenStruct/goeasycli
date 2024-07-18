@@ -1,6 +1,6 @@
 <div align="center">
   <img referrerpolicy="no-referrer-when-downgrade" src="https://avatars.githubusercontent.com/u/174039470?s=96&v=4" />
-  <h1 align="center">Bootstrap your next Go project with ease.
+  <h1 align="center">Bootstrap your next Go project/library with ease.
 </h1>
 </div>
 
@@ -43,6 +43,29 @@
 [free-for-dev]: https://img.shields.io/badge/free_for_non_commercial_use-brightgreen
 
 ---
+
+## List of Contents
+
+- [🔑 Prerequisites](#-prerequisites)
+- [🤸 Quickstart](#-quickstart)
+- [🪄 Simple and fast project setup](#-simple-and-fast-project-setup)
+- [😺 API Documentation](#-api-documentation)
+- [🏛️ Folder Structure](#-folder-structure)
+- [🙁 Posible Issues](#-posible-issues)
+- [📚 Creating a Library](#-creating-a-library)
+- [🗺 Roadmap](#-roadmap)
+- [🙌 Contributing and Community](#-contributing-and-community)
+- [⭐️ Show Your Support](#-show-your-support)
+- [📜 License](#-license)
+
+---
+
+## 🔑 Prerequisites
+
+To use GoEasyCLI, you **need** to have the following tools installed on your system:
+
+- [Go](https://golang.org/dl/)
+- [Git](https://git-scm.com/downloads)
 
 ## 🤸 Quickstart
 
@@ -150,7 +173,7 @@ After using GoEasyCLI to create a project, the folder structure will be as follo
 
 This structure provides a solid foundation for your Go project, organized into common directories for configuration, controllers, database handling, logging, middleware, models, routes, templates, seeds and utilities.
 
-## Folder Structure Details
+## 🏛️ Folder Structure Details
 
 ### config
 
@@ -309,9 +332,69 @@ The `utils` folder contains the utility files for the project. The utility files
 
 </details>
 
----
+## 🙁 Posible Issues
 
----
+### Error: `Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work. This is a stub`
+
+```bash
+2024/07/17 15:10:42 C:/WINDOWS/system32/justGo/database/database.go:66
+[error] failed to initialize database, got error Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work. This is a stub
+failed to connect database
+Database connection is nil. cannot run migration
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal 0xc0000005 code=0x0 addr=0x28 pc=0x13e4992]
+```
+
+This error is due to the fact that the project is using `sqlite` as the default database.
+To fix this issue, you need to:
+
+1. Run this command in your `cmd` or `powershell`:
+
+```bash
+go env -w CGO_ENABLED =1
+```
+
+2.  Download a [tdm-gcc](https://jmeubank.github.io/tdm-gcc) for your architecture and install it.
+
+> During installation, select `TDM-GCC Recommend, All Packages` from the Choose Components Screen. See Screenshot below
+>
+> ![TDM-GCC Setup](https://github.com/user-attachments/assets/44b06ab8-8f94-4b21-82bb-ba4b0c1f1cec)
+
+## 📚 Creating a Library
+
+GoEasyCLI can also be used to create a Go library. To create a new library, use the following command:
+
+```bash
+goeasycli -l <library_name> -r repo_url
+```
+
+Replace `<library_name>` with your desired library name and `repo_url` with the URL of the repository.
+
+Here's an example:
+
+```bash
+goeasycli -l my_awesome_fafa_lib -r https://github.com/heygoeasycli/my_awesome_fafa_lib
+```
+
+This command creates a new Go library named `my_awesome_fafa_lib` with the specified repository URL.
+
+The folder structure for the library will be as follows:
+
+```shell
+└── 📁my_awesome_fafa_lib
+    └── .github
+        └── goeasycli_tag.yml
+    └── config
+        └── config.go
+    └── database
+        └── database.go
+    └── email
+        └── emails.go
+    └── loggers
+        └── zap.go
+    └── go.mod
+    └── go.sum
+```
 
 ## 🗺 Roadmap
 
@@ -322,6 +405,12 @@ GoEasyCLI is managed by [Open Struct](https://github.com/OpenStruct), a group wi
 ## 🙌 Contributing and Community
 
 We would love to develop GoEasyCLI together with our community! The best way to get started is to select any issue from the [repo](https://github.com/OpenStruct/goeasycli/issues) and open up a Pull Request!
+
+### Contributors
+
+<a href="https://github.com/OpenStruct/goeasycli/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=OpenStruct/goeasycli" />
+</a>
 
 ## ⭐️ Show Your Support
 
@@ -336,9 +425,3 @@ Thank you for your support! 🌟
 GoEasyCLI is distributed under the terms of the MIT License.
 A complete version of the license is available in the [LICENSE](LICENSE) file in
 this repository. Any contribution made to this project will be licensed under the MIT License.
-
-## Contributors
-
-<a href="https://github.com/goeasycli/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=OpenStruct/goeasycli" />
-</a>
