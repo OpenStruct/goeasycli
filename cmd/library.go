@@ -41,7 +41,7 @@ func createLibraryProject(lName, repo string) {
 		"database",
 		"email",
 		".github/workflows",
-		"loggers",
+		"logger",
 		"config",
 	}
 
@@ -55,7 +55,7 @@ func createLibraryProject(lName, repo string) {
 		"library/emails.go.tmpl":  "email/emails.go",
 		"shared/config.go.tmpl":   "config/config.go",
 		"shared/database.go.tmpl": "database/database.go",
-		"shared/zap.go.tmpl":      "loggers/zap.go",
+		"shared/zap.go.tmpl":      "logger/zap.go",
 	}
 
 	for templateName, filePath := range libraryFiles {

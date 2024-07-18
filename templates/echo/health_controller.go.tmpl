@@ -3,9 +3,14 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
+// Health godoc
+// @Summary Check the health of the application
+// @Description Check the health of the application
+// @Tags health
+// @Router /health [get]
 func Health(c echo.Context) error {
 	return c.String(http.StatusOK, "I am breathing!")
 }

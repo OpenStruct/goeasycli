@@ -1,10 +1,10 @@
 package routers
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"{{ .ProjectName }}/controllers"
 )
 
-func HealthRoute(router *echo.Echo) {
+func Health(router *echo.Echo) {
 	router.GET("/health", controllers.Health)
 }
