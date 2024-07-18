@@ -9,12 +9,12 @@ import (
 	"syscall"
 	"time"
 
-	"{{ .ProjectName }}/config"
-	"{{ .ProjectName }}/database"
-	"{{ .ProjectName }}/models"
-	"{{ .ProjectName }}/routers"
-	"{{ .ProjectName }}/seeds"
-	"{{ .ProjectName }}/logger"
+	"hjo/config"
+	"hjo/database"
+	"hjo/models"
+	"hjo/routers"
+	"hjo/seeds"
+	"hjo/logger"
 )
 
 func main() {

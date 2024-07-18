@@ -5,8 +5,8 @@ import (
     "bytes"
 	"html/template"
 	"math/rand"
-    "{{ .ProjectName }}/config"
-	"{{ .ProjectName }}/logger"
+    "hjo/config"
+	"hjo/logger"
 	"github.com/resend/resend-go/v2"
 	"go.uber.org/zap"
 )

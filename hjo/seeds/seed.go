@@ -2,9 +2,9 @@ package seeds
 
 import (
 	"errors"
-	"{{ .ProjectName }}/database"
-	"{{ .ProjectName }}/models"
-	"{{ .ProjectName }}/logger"
+	"hjo/database"
+	"hjo/models"
+	"hjo/logger"
 	"go.uber.org/zap"
 
 	"gorm.io/gorm"

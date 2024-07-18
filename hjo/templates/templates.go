@@ -50,12 +50,12 @@ const WELCOME_EMAIL = `<!DOCTYPE html>
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>Heya {{ "{{ .FullName }}" }}!</h1>
+            <h1>Heya {{ .FullName }}!</h1>
         </div>
         <div class="content">
             <p>Welcome to GoEas!</p>
             <p>Don't forget to star our project on GitHub:</p>
-            <a href="{{ "{{ .Link }}" }}">{{ "{{ .Link }}" }}</a>
+            <a href="{{ .Link }}">{{ .Link }}</a>
         </div>
         <div class="footer">
             <p>Thank you for joining us!</p>

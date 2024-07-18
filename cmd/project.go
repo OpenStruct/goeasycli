@@ -54,7 +54,7 @@ func createProjectFiles(projectName, framework string) {
 		"database",
 		"controllers",
 		"utils",
-		"loggers",
+		"logger",
 		"templates",
 		"seeds",
 	}
@@ -74,11 +74,12 @@ func createProjectFiles(projectName, framework string) {
 		"shared/go.mod.tmpl":           "go.mod",
 		"shared/database.go.tmpl":      "database/database.go",
 		"shared/template.go.tmpl":      "templates/templates.go",
-		"shared/zap.go.tmpl":           "loggers/zap.go",
-		"shared/sentry.go.tmpl":        "loggers/sentry.go",
+		"shared/zap.go.tmpl":           "logger/zap.go",
+		"shared/sentry.go.tmpl":        "logger/sentry.go",
 		"shared/test_database.db.tmpl": "test_database.db",
 		"shared/gitignore.tmpl":        ".gitignore",
 		"shared/seeds.tmpl":            "seeds/seed.go",
+		"shared/structs.go.tmpl":       "structs/structs.go",
 	}
 
 	frameworkFiles := map[string]map[string]string{
