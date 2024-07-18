@@ -235,6 +235,7 @@ func CreateProjectDirectories(projectName string, dirs []string) error {
 
 func InstallDependencies(projectName string) {
 	os.Chdir(projectName)
+	RunCommand("go", "get", "-u", "github.com/swaggo/swag/cmd/swag")      // Install latest version of swag (old go version)
 	RunCommand("go", "install", "github.com/swaggo/swag/cmd/swag@latest") // Install latest version of swag
 	RunCommand("swag", "init")                                            // Initialize swag
 	RunCommand("go", "mod", "tidy")
