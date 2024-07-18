@@ -44,14 +44,6 @@
 
 ---
 
-## ⭐️ Show Your Support
-
-If you find GoEasyCLI helpful or interesting, please consider giving us a star on GitHub. Your support helps promote the project and lets others know that it's worth checking out.
-
-Thank you for your support! 🌟
-
-[![Star this project](https://img.shields.io/github/stars/OpenStruct/goeasycli?style=social)](github.com/OpenStruct/goeasycli/stargazers)
-
 ## 🤸 Quickstart
 
 Install GoEasyCLI with the following command:
@@ -110,7 +102,7 @@ go run .
 
 ## 😺 API Documentation
 
-After running the project, you can access the API documentation at `http://localhost:3000/swagger/index.html`.
+After running the project, you can access the API documentation at `http://localhost:8080/swagger/index.html`.
 
 More details on how to use the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
 
