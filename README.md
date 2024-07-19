@@ -1,13 +1,13 @@
 <div align="center">
   <img referrerpolicy="no-referrer-when-downgrade" src="https://avatars.githubusercontent.com/u/174039470?s=96&v=4" />
-  <h1 align="center">Bootstrap your next Go project/library with ease.
+  <h1 align="center">Bootstrap your next Go project/library easily.
 </h1>
 </div>
 
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** Reference links are in brackets [ ] instead of parentheses ( ).
 *** See the bottom of this document for the declaration of the reference variables
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
@@ -79,7 +79,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/
 
 ### Windows
 
-> **_NOTE:_** Please run powershell in administrator mode.
+> **_NOTE:_** Please run Powershell in administrator mode.
 
 ```powershell
 powershell -c "irm https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
@@ -93,7 +93,7 @@ goeasycli --help
 
 ## 🪄 Simple and fast project setup
 
-GoEasyCLI is a command-line interface that automates project creation and setup tasks for Go projects. It streamlines the process of setting up the project structure, installing dependencies, and configuring initial settings, making it easier to get started with Go.
+GoEasyCLI is a command-line interface that automates project creation and setup tasks for Go projects. It streamlines the process of setting up the project structure, installing dependencies, and configuring initial settings, making it easier to start with Go.
 
 ### Create a new project with specified options
 
@@ -127,7 +127,7 @@ go run .
 
 After running the project, you can access the API documentation at `http://localhost:8080/swagger/index.html`.
 
-More details on how to use the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
+More details on using the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
 
 ---
 
@@ -211,7 +211,7 @@ It contains a sample user controller, which handles basic CRUD operations for us
 
 ### database
 
-The `database` folder contains the project's database configuration and connection settings.
+The `database` folder contains the project's db configuration and connection settings.
 
 <details>
 
@@ -302,7 +302,7 @@ The `seeds` folder contains the seed files for the project. The seed files popul
 <details>
 <summary>seeds.go</summary>
 
-It contains the seed logic to populate the database with sample user.
+It contains the seed logic to populate the database with sample users.
 You can comment out the seed logic to avoid populating the database with sample data.
 
 </details>
@@ -327,14 +327,14 @@ You can customize the response functions to handle different response formats or
 <details>
 <summary>utils.go</summary>
 
-It contains the utility functions for the project.
-Utility functions are used to perform common tasks such as string manipulation, and data validation.
+It contains the project's utility functions.
+Utility functions perform common tasks such as string manipulation and data validation.
 
 </details>
 
 ## 🙁 Posible Issues
 
-### Error: `Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work. This is a stub`
+### Error: `Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work. This is a stub.`
 
 ```bash
 2024/07/17 15:10:42 C:/WINDOWS/system32/justGo/database/database.go:66
@@ -345,7 +345,7 @@ panic: runtime error: invalid memory address or nil pointer dereference
 [signal 0xc0000005 code=0x0 addr=0x28 pc=0x13e4992]
 ```
 
-This error is due to the fact that the project is using `sqlite` as the default database.
+This error is caused by the project using `SQLite` as the default database.
 To fix this issue, you need to:
 
 1. Run this command in your `cmd` or `powershell`:
@@ -368,7 +368,7 @@ GoEasyCLI can also be used to create a Go library. To create a new library, use 
 goeasycli -l <library_name> -r repo_url
 ```
 
-Replace `<library_name>` with your desired library name and `repo_url` with the URL of the repository.
+Replace `<library_name>` with your desired library name and `repo_url` with the repository's URL.
 
 Here's an example:
 
@@ -400,11 +400,11 @@ The folder structure for the library will be as follows:
 
 GoEasyCLI is being built in public. The [roadmap](https://github.com/OpenStruct/goeasycli/issues) is a regularly updated source of truth for the GoEasyCLI community to understand where the product is going in the short, medium, and long term.
 
-GoEasyCLI is managed by [Open Struct](https://github.com/OpenStruct), a group with the aim of easing the burden of engineers. You can directly influence the roadmap as by [Creating an issue](https://github.com/OpenStruct/goeasycli/issues/new/choose) on our GitHub repo.
+GoEasyCLI is managed by [Open Struct](https://github.com/OpenStruct), a group with the aim of easing the burden of engineers. On our GitHub repo, you can directly influence the roadmap by [Creating an issue](https://github.com/OpenStruct/goeasycli/issues/new/choose).
 
 ## 🙌 Contributing and Community
 
-We would love to develop GoEasyCLI together with our community! The best way to get started is to select any issue from the [repo](https://github.com/OpenStruct/goeasycli/issues) and open up a Pull Request!
+We would love to develop GoEasyCLI together with our community! The best way to get started is to select any issue from the [repo](https://github.com/OpenStruct/goeasycli/issues) and open a Pull Request!
 
 ### Contributors
 
@@ -414,9 +414,9 @@ We would love to develop GoEasyCLI together with our community! The best way to 
 
 ## ⭐️ Show Your Support
 
-If you find GoEasyCLI helpful or interesting, please consider giving us a star on GitHub. Your support helps promote the project and lets others know that it's worth checking out.
+If you find GoEasyCLI helpful or interesting, please consider giving us a star on GitHub. Your support helps promote the project and lets others know it's worth checking out.
 
-Thank you for your support! 🌟
+Thank you for being so supportive! 🌟
 
 [![Star this project](https://img.shields.io/github/stars/OpenStruct/goeasycli?style=social)](github.com/OpenStruct/goeasycli/stargazers)
 
