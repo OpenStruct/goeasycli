@@ -248,3 +248,18 @@ func ValidateInputValue(inputName, inputValue string) string {
 	}
 	return inputValue
 }
+
+func InstallsDependencies(projectName string, flag string, packages ...string) {
+	os.Chdir(projectName)
+	RunCommand("go", "mod", "tidy")
+
+	if len(packages) == 0 {
+		return
+	}
+
+	for _, pkg := range packages {
+		if err := RunCommand("go", "get", "-u", pkg); err != nil {
+			log.Fatalf("Failed to install package %s: %s", pkg, err)
+		}
+	}
+}
