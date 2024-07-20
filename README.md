@@ -126,6 +126,7 @@ go run .
 ## 😺 API Documentation
 
 After running the project, you can access the API documentation at `http://localhost:8080/swagger/index.html`.
+> Remember to change the port to match your SERVER_PORT. Default is set to **8080**
 
 More details on using the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
 
@@ -163,6 +164,7 @@ After using GoEasyCLI to create a project, the folder structure will be as follo
     └── 📁seeds
         └── seed.go
     └── 📁structs
+        └── 📁structs.go        
     └── 📁templates
         └── templates.go
     └── test_database.db
