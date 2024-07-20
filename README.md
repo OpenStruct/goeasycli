@@ -40,7 +40,6 @@
 [os-shield]: https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4
 [release-date]: https://img.shields.io/github/release-date/OpenStruct/goeasycli
 [last-commit]: https://img.shields.io/github/last-commit/OpenStruct/goeasycli
-[free-for-dev]: https://img.shields.io/badge/free_for_non_commercial_use-brightgreen
 
 ---
 
