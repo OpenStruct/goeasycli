@@ -21,7 +21,6 @@
 [![Golang][project-download]][downloads-url]
 ![Contributors][contributors-shield]
 [![License][license-shield]][license-url]
-[![Free][free-for-dev]](#-license)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
