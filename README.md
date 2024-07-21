@@ -52,6 +52,7 @@
 - [🙁 Posible Issues](#-posible-issues)
 - [📚 Creating a Library](#-creating-a-library)
 - [🗺 Roadmap](#-roadmap)
+- [🥺 Uninstalling GoEasyCLI](#-uninstalling-goeasycli)
 - [🙌 Contributing and Community](#-contributing-and-community)
 - [⭐️ Show Your Support](#-show-your-support)
 - [📜 License](#-license)
@@ -82,6 +83,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/
 ```powershell
 powershell -c "irm https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
 ```
+
 
 Check available options by running:
 
@@ -401,6 +403,15 @@ The folder structure for the library will be as follows:
 GoEasyCLI is being built in public. The [roadmap](https://github.com/OpenStruct/goeasycli/issues) is a regularly updated source of truth for the GoEasyCLI community to understand where the product is going in the short, medium, and long term.
 
 GoEasyCLI is managed by [Open Struct](https://github.com/OpenStruct), a group with the aim of easing the burden of engineers. On our GitHub repo, you can directly influence the roadmap by [Creating an issue](https://github.com/OpenStruct/goeasycli/issues/new/choose).
+
+## 🥺 Uninstalling GoEasyCLI
+
+Need to say goodbye? We understand. Here's how to remove GoEasyCLI from your system. Use either of these commands in your terminal:
+
+```bash
+goeasycli -u
+goeasycli uninstall
+```
 
 ## 🙌 Contributing and Community
 
