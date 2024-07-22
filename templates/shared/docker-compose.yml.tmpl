@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    container_name: {{ .ProjectName }}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./test_database.db:/app/test_database.db
+    environment:
+      - GIN_MODE=release
+    restart: unless-stopped
+
+volumes:
+  test_database:

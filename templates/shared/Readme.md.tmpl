@@ -1,0 +1,132 @@
+# Using Docker
+
+## Prerequisites
+
+The only requirement to build and use this project is Docker or make.
+
+You will also need to enable the BuildKit builder in the Docker CLI. This can be done by setting DOCKER_BUILDKIT=1 in your environment.
+
+### macOS
+
+- Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+- Ensure that you have `make` if you want to use the Makefile.
+- Run `export DOCKER_BUILDKIT=1` in your terminal or add to your shell initialization scripts
+
+### Windows
+
+- Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
+- Ensure that you have `make` if you want to use the Makefile.
+- If using PowerShell, run `$env:DOCKER_BUILDKIT=1`
+- If using Command Prompt, run `set DOCKER_BUILDKIT=1`
+
+### Linux
+
+- Install [Docker](https://docs.docker.com/install/)
+- Ensure that you have `make` if you want to use the Makefile.
+- Run `export DOCKER_BUILDKIT=1` in your terminal or add to your shell initialization scripts
+
+## Building & Running
+
+The project can be built and run using either the Makefile or Docker.
+
+### Makefile
+
+To build and run the project using the Makefile, run the following commands:
+
+```bash
+make build
+```
+
+This will build the Docker image.
+
+You can then run the project using:
+
+```bash
+make run
+```
+
+This will run the Docker container.
+
+The two commands can be combined into one by simply running:
+
+```bash
+make
+```
+
+You can also stop the container using:
+
+```bash
+make stop
+```
+
+Clean up the container using:
+
+```bash
+make clean
+```
+
+Reset the container using:
+
+```bash
+make restart
+```
+
+Check the logs using:
+
+```bash
+make logs
+```
+
+And enter the container using:
+
+```bash
+make shell
+```
+
+### Docker
+
+To build and run the project using Docker, run the following commands:
+
+```bash
+docker-compose build
+```
+
+This will build the Docker image.
+
+You can then run the project using:
+
+```bash
+docker-compose up
+```
+
+The two commands can be combined into one using:
+
+```bash
+docker-compose up --build
+```
+
+You can also stop the container using:
+
+```bash
+docker-compose down
+```
+
+Clean up the container using:
+
+```bash
+docker-compose down --volumes
+```
+
+Check the logs using:
+
+```bash
+docker-compose logs
+```
+
+And enter the container using:
+
+```bash
+docker-compose exec <service> sh
+```
+
+Where `<service>` is the name of the service you want to enter.

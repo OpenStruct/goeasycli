@@ -1,0 +1,37 @@
+# Variables
+DOCKER_IMAGE_NAME = {{ .ProjectName }}
+DOCKER_CONTAINER_NAME = {{ .ProjectName }}-container
+PORT = 8080
+
+# Default target
+all: build run
+
+# Build the Docker image
+build:
+	docker build -t $(DOCKER_IMAGE_NAME) .
+
+# Run the Docker container
+run:
+	docker run -d -p $(PORT):$(PORT) --name $(DOCKER_CONTAINER_NAME) $(DOCKER_IMAGE_NAME)
+
+# Stop and remove the Docker container
+stop:
+	docker stop $(DOCKER_CONTAINER_NAME)
+	docker rm $(DOCKER_CONTAINER_NAME)
+
+# Remove the Docker image
+clean:
+	docker rmi $(DOCKER_IMAGE_NAME)
+
+# Rebuild and restart the container
+restart: stop clean build run
+
+# Show container logs
+logs:
+	docker logs $(DOCKER_CONTAINER_NAME)
+
+# Enter the container shell
+shell:
+	docker exec -it $(DOCKER_CONTAINER_NAME) /bin/bash
+
+.PHONY: all build run stop clean restart logs shell

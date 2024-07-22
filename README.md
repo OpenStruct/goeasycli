@@ -21,7 +21,6 @@
 [![Golang][project-download]][downloads-url]
 ![Contributors][contributors-shield]
 [![License][license-shield]][license-url]
-[![Free][free-for-dev]](#-license)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -40,7 +39,6 @@
 [os-shield]: https://img.shields.io/badge/OS-linux%2C%20windows%2C%20macOS-0078D4
 [release-date]: https://img.shields.io/github/release-date/OpenStruct/goeasycli
 [last-commit]: https://img.shields.io/github/last-commit/OpenStruct/goeasycli
-[free-for-dev]: https://img.shields.io/badge/free_for_non_commercial_use-brightgreen
 
 ---
 
@@ -54,6 +52,7 @@
 - [🙁 Posible Issues](#-posible-issues)
 - [📚 Creating a Library](#-creating-a-library)
 - [🗺 Roadmap](#-roadmap)
+- [🥺 Uninstalling GoEasyCLI](#-uninstalling-goeasycli)
 - [🙌 Contributing and Community](#-contributing-and-community)
 - [⭐️ Show Your Support](#-show-your-support)
 - [📜 License](#-license)
@@ -84,6 +83,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/
 ```powershell
 powershell -c "irm https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
 ```
+
 
 Check available options by running:
 
@@ -403,6 +403,15 @@ The folder structure for the library will be as follows:
 GoEasyCLI is being built in public. The [roadmap](https://github.com/OpenStruct/goeasycli/issues) is a regularly updated source of truth for the GoEasyCLI community to understand where the product is going in the short, medium, and long term.
 
 GoEasyCLI is managed by [Open Struct](https://github.com/OpenStruct), a group with the aim of easing the burden of engineers. On our GitHub repo, you can directly influence the roadmap by [Creating an issue](https://github.com/OpenStruct/goeasycli/issues/new/choose).
+
+## 🥺 Uninstalling GoEasyCLI
+
+Need to say goodbye? We understand. Here's how to remove GoEasyCLI from your system. Use either of these commands in your terminal:
+
+```bash
+goeasycli -u
+goeasycli uninstall
+```
 
 ## 🙌 Contributing and Community
 

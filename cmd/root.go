@@ -2,8 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
+	"goeasycli/utils"
 	"os"
+	"runtime"
+
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -36,6 +39,12 @@ var rootCmd = &cobra.Command{
 	Long:    longDescription,
 	Version: version,
 	Run: func(cmd *cobra.Command, args []string) {
+		uninstallFlag, _ := cmd.Flags().GetBool("uninstall")
+		if uninstallFlag {
+			uninstall()
+			return
+		}
+
 		if projectName != "" && libraryName != "" {
 			fmt.Println("Both project and library flags are present. Prioritizing project creation.")
 			createProject(projectName, framework)
@@ -52,10 +61,74 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.AddCommand(uninstallCmd)
+	rootCmd.CompletionOptions.HiddenDefaultCmd = true
+	rootCmd.Flags().BoolP("uninstall", "u", false, "Uninstall goeasycli")
 	rootCmd.PersistentFlags().StringVarP(&projectName, "project", "p", "", "Name of the project")
 	rootCmd.PersistentFlags().StringVarP(&framework, "framework", "f", "", "Web frameworks supported: (gin,fiber,echo)")
 	rootCmd.PersistentFlags().StringVarP(&libraryName, "library", "l", "", "Name of the library to create")
 	rootCmd.PersistentFlags().StringVarP(&repoUrl, "repo", "r", "", "Repository url for the library")
+}
+
+var uninstallCmd = &cobra.Command{
+	Use:     "uninstall",
+	Aliases: []string{"u"},
+	Short:   "Uninstall goeasycli",
+	Long:    `Uninstall goeasycli from your system.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		uninstall()
+	},
+}
+
+func uninstall() {
+	var binaryPath string
+
+	switch runtime.GOOS {
+	case "windows":
+		binaryPath = os.Getenv("PROGRAMFILES") + "\\goeasycli\\goeasycli.exe"
+	case "darwin", "linux":
+		binaryPath = "/usr/local/bin/goeasycli"
+	default:
+		fmt.Printf("Unsupported operating system: %s\n", runtime.GOOS)
+		os.Exit(1)
+	}
+
+	// Check if the binary exists
+	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
+		fmt.Println("goeasycli is not installed.")
+		return
+	}
+
+	fmt.Println("Uninstalling goeasycli...")
+
+	var err error
+	switch runtime.GOOS {
+	case "windows":
+		err = utils.RunCommand("cmd", "/C", "del", binaryPath)
+	case "darwin", "linux":
+		err = utils.RunCommand("sudo", "rm", binaryPath)
+	}
+
+	if err != nil {
+		fmt.Printf("Failed to uninstall goeasycli: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Remove the directory on windows
+	if runtime.GOOS == "windows" {
+		dirPath := os.Getenv("PROGRAMFILES") + "\\goeasycli"
+		err = os.RemoveAll(dirPath)
+		if err != nil {
+			fmt.Printf("Failed to remove directory: %v\n", err)
+		}
+	}
+
+	fmt.Println("goeasycli has been successfully uninstalled.")
+
+	// Remove from PATH for Windows
+	if runtime.GOOS == "windows" {
+		fmt.Println("Please note: You may need to manually remove goeasycli from your system PATH.")
+	}
 }
 
 func Execute() {
