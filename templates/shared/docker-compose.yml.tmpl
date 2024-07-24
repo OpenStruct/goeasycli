@@ -3,12 +3,30 @@ services:
     build: .
     container_name: {{ .ProjectName }}
     ports:
-      - "8080:8080"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
       - ./test_database.db:/app/test_database.db
+    env_file:
+      - .env
+    # depends_on:
+    #   - postgress
+    restart: unless-stopped
+  
+  postgress:
+    image: postgres:latest
+    container_name: postgress
     environment:
-      - GIN_MODE=release
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./test_database:/var/lib/postgresql/data
+    env_file:
+      - .env
     restart: unless-stopped
 
 volumes:
   test_database:
+  postgres_data:

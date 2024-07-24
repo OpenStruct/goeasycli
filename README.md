@@ -84,7 +84,6 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/OpenStruct/goeasycli/main/
 powershell -c "irm https://raw.githubusercontent.com/OpenStruct/goeasycli/main/scripts/install.ps1 | iex"
 ```
 
-
 Check available options by running:
 
 ```bash
@@ -126,6 +125,7 @@ go run .
 ## 😺 API Documentation
 
 After running the project, you can access the API documentation at `http://localhost:8080/swagger/index.html`.
+
 > Remember to change the port to match your SERVER_PORT. Default is set to **8080**
 
 More details on using the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
@@ -164,7 +164,7 @@ After using GoEasyCLI to create a project, the folder structure will be as follo
     └── 📁seeds
         └── seed.go
     └── 📁structs
-        └── 📁structs.go        
+        └── 📁structs.go
     └── 📁templates
         └── templates.go
     └── test_database.db
@@ -429,7 +429,7 @@ If you find GoEasyCLI helpful or interesting, please consider giving us a star o
 
 Thank you for being so supportive! 🌟
 
-[![Star this project](https://img.shields.io/github/stars/OpenStruct/goeasycli?style=social)](github.com/OpenStruct/goeasycli/stargazers)
+[![Star this project](https://img.shields.io/github/stars/OpenStruct/goeasycli?style=social)](https://github.com/OpenStruct/goeasycli/stargazers)
 
 ## 📜 License
 
