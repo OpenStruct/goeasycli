@@ -130,6 +130,10 @@ After running the project, you can access the API documentation at `http://local
 
 More details on using the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
 
+In some cases, the Swagger documentation may not be available. In such cases, you can use the Postman collection to test the API endpoints.
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc%26entityType%3Dcollection%26workspaceId%3D23eb7893-79ca-41ef-96ae-c11a9551cd0c)
+
 ---
 
 ## 🗂️ Folder Structure
