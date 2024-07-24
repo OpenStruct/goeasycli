@@ -15,6 +15,7 @@ var (
 	framework   string
 	libraryName string
 	repoUrl     string
+	flag        string
 )
 
 var longDescription = `A CLI tool to create web projects using different frameworks like:
@@ -45,13 +46,16 @@ var rootCmd = &cobra.Command{
 			return
 		}
 
+		flag = "p"
+
 		if projectName != "" && libraryName != "" {
 			fmt.Println("Both project and library flags are present. Prioritizing project creation.")
-			createProject(projectName, framework)
+			createProject(projectName, framework, flag)
 		} else if projectName != "" {
-			createProject(projectName, framework)
+			createProject(projectName, framework, flag)
 		} else if libraryName != "" {
-			createLibrary(libraryName, repoUrl)
+			flag = "l"
+			createLibrary(libraryName, repoUrl, flag)
 		} else {
 			fmt.Println("Please specify either a project name (-p) or a library name (-l)")
 			cmd.Usage()
