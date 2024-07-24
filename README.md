@@ -164,7 +164,7 @@ After using GoEasyCLI to create a project, the folder structure will be as follo
     └── 📁seeds
         └── seed.go
     └── 📁structs
-        └── 📁structs.go
+        └── structs.go
     └── 📁templates
         └── templates.go
     └── test_database.db
