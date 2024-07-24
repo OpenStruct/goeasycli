@@ -236,16 +236,15 @@ func CreateProjectDirectories(projectName string, dirs []string) error {
 func InstallDependencies(projectName, flag string, packages []string) {
 	os.Chdir(projectName)
 
-	for _, pkg := range packages {
+	log.Println("package installation started...")
 
-		// For older versions of Go
-		if err := RunCommand("go", "get", "-u", pkg); err != nil {
-			log.Fatalf("Failed to install package %s: %s", pkg, err)
-		}
+	if len(packages) != 0 {
 
-		// For newer versions of Go
-		if err := RunCommand("go", "install", pkg); err != nil {
-			log.Fatalf("Failed to install package %s: %s", pkg, err)
+		for _, pkg := range packages {
+
+			if err := RunCommand("go", "get", "-u", pkg); err != nil {
+				log.Fatalf("Failed to install package %s: %s", pkg, err)
+			}
 		}
 	}
 
@@ -254,6 +253,7 @@ func InstallDependencies(projectName, flag string, packages []string) {
 	}
 
 	RunCommand("go", "mod", "tidy")
+	log.Println("All packages installed successfully")
 }
 
 func ValidateInputValue(inputName, inputValue string) string {
