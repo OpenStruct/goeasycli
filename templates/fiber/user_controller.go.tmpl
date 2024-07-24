@@ -18,7 +18,7 @@ type UserController struct{}
 // @Produce  json
 // @Param user body models.GoEasyCLITestUser true "User object"
 // @Success 200 {object} models.GoEasyCLITestUser
-// @Router /user/add [post]
+// @Router /v1/user/add [post]
 func (repo *UserController) CreateUser(c *fiber.Ctx) error {
 	var user models.GoEasyCLITestUser
 	if err := c.BodyParser(&user); err != nil {
@@ -36,7 +36,7 @@ func (repo *UserController) CreateUser(c *fiber.Ctx) error {
 // @Tags user
 // @Produce  json
 // @Success 200 {object} []models.GoEasyCLITestUser
-// @Router /user/list [get]
+// @Router /v1/user/list [get]
 func (repo *UserController) GetAllUsers(c *fiber.Ctx) error {
 	users, err := models.GetAllUsers(c.Context(), database.Db)
 	if err != nil {
@@ -52,7 +52,7 @@ func (repo *UserController) GetAllUsers(c *fiber.Ctx) error {
 // @Produce  json
 // @Param id path string true "User ID"
 // @Success 200 {object} models.GoEasyCLITestUser
-// @Router /user/{id} [get]
+// @Router /v1/user/{id} [get]
 func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 	user, err := models.GetUserByID(c.Context(), database.Db, id)
@@ -73,7 +73,7 @@ func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 // @Produce  json
 // @Param user body models.GoEasyCLITestUser true "User object"
 // @Success 200 {object} models.GoEasyCLITestUser
-// @Router /user/update [patch]
+// @Router /v1/user/update [patch]
 func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 	var user models.GoEasyCLITestUser
 
@@ -97,7 +97,7 @@ func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 // @Tags user
 // @Param id path string true "User ID"
 // @Success 200 {string} string	"User deleted successfully"
-// @Router /user/delete/{id} [delete]
+// @Router /v1/user/delete/{id} [delete]
 func (repo *UserController) DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	if err := models.DeleteUser(c.Context(), database.Db, id); err != nil {

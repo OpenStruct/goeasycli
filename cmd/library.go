@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-func createLibrary(libraryName, repo string) {
+func createLibrary(libraryName, repo, flag string) {
 	dir, _ := os.Getwd()
 
 	// Check if library name starts with a hyphen
@@ -31,12 +31,12 @@ func createLibrary(libraryName, repo string) {
 
 	repo = utils.CleanRepoURL(repo)
 
-	createLibraryProject(libraryName, repo)
+	createLibraryProject(libraryName, repo, flag)
 	utils.OpenDirectory(fullpath)
 
 }
 
-func createLibraryProject(lName, repo string) {
+func createLibraryProject(lName, repo, flag string) {
 	dirs := []string{
 		"database",
 		"email",
@@ -67,5 +67,5 @@ func createLibraryProject(lName, repo string) {
 		log.Fatalf("Failed to copy template file: %v", err)
 	}
 
-	utils.InstallDependencies(lName)
+	utils.InstallDependencies(lName, flag, nil)
 }

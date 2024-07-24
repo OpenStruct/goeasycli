@@ -18,7 +18,7 @@ type UserRepo struct{}
 // @Produce  json
 // @Param user body models.GoEasyCLITestUser true "User object"
 // @Success 200 {object} models.GoEasyCLITestUser
-// @Router /user/add [post]
+// @Router /v1/user/add [post]
 func (repo *UserRepo) CreateUser(ctx echo.Context) error {
 	var user models.GoEasyCLITestUser
 
@@ -42,7 +42,7 @@ func (repo *UserRepo) CreateUser(ctx echo.Context) error {
 // @Tags user
 // @Produce  json
 // @Success 200 {object} []models.GoEasyCLITestUser
-// @Router /user/list [get]
+// @Router /v1/user/list [get]
 func (repo *UserRepo) GetAllUsers(ctx echo.Context) error {
 	users, err := models.GetAllUsers(ctx.Request().Context(), database.Db)
 	if err != nil {
@@ -61,7 +61,7 @@ func (repo *UserRepo) GetAllUsers(ctx echo.Context) error {
 // @Produce  json
 // @Param id path string true "User ID"
 // @Success 200 {object} models.GoEasyCLITestUser
-// @Router /user/{id} [get]
+// @Router /v1/user/{id} [get]
 func (repo *UserRepo) GetUserByID(ctx echo.Context) error {
 	user, err := models.GetUserByID(ctx.Request().Context(), database.Db, ctx.Param("id"))
 	if err != nil {
@@ -81,7 +81,7 @@ func (repo *UserRepo) GetUserByID(ctx echo.Context) error {
 // @Produce  json
 // @Param user body models.GoEasyCLITestUser true "User object"
 // @Success 200 {object} models.GoEasyCLITestUser
-// @Router /user/update [patch]
+// @Router /v1/user/update [patch]
 func (repo *UserRepo) UpdateUser(ctx echo.Context) error {
 	var user models.GoEasyCLITestUser
 
@@ -110,7 +110,7 @@ func (repo *UserRepo) UpdateUser(ctx echo.Context) error {
 // @Tags user
 // @Param id path string true "User ID"
 // @Success 200 {string} string	"User deleted successfully"
-// @Router /user/delete/{id} [delete]
+// @Router /v1/user/delete/{id} [delete]
 func (repo *UserRepo) DeleteUser(ctx echo.Context) error {
 	err := models.DeleteUser(ctx.Request().Context(), database.Db, ctx.Param("id"))
 	if err != nil {

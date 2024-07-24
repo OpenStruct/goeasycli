@@ -233,11 +233,26 @@ func CreateProjectDirectories(projectName string, dirs []string) error {
 	return nil
 }
 
-func InstallDependencies(projectName string) {
+func InstallDependencies(projectName, flag string, packages []string) {
 	os.Chdir(projectName)
-	RunCommand("go", "get", "-u", "github.com/swaggo/swag/cmd/swag")      // Install latest version of swag (old go version)
-	RunCommand("go", "install", "github.com/swaggo/swag/cmd/swag@latest") // Install latest version of swag
-	RunCommand("swag", "init")                                            // Initialize swag
+
+	for _, pkg := range packages {
+
+		// For older versions of Go
+		if err := RunCommand("go", "get", "-u", pkg); err != nil {
+			log.Fatalf("Failed to install package %s: %s", pkg, err)
+		}
+
+		// For newer versions of Go
+		if err := RunCommand("go", "install", pkg); err != nil {
+			log.Fatalf("Failed to install package %s: %s", pkg, err)
+		}
+	}
+
+	if flag == "p" {
+		RunCommand("swag", "init")
+	}
+
 	RunCommand("go", "mod", "tidy")
 }
 

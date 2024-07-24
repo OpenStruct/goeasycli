@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-func createProject(projectName, framework string) {
+func createProject(projectName, framework, flag string) {
 	dir, _ := os.Getwd()
 
 	projectName = utils.ValidateInputValue("Project", projectName)
@@ -39,11 +39,11 @@ func createProject(projectName, framework string) {
 		}
 	}
 
-	createProjectFiles(projectName, framework)
+	createProjectFiles(projectName, framework, flag)
 	utils.OpenDirectory(fullpath)
 }
 
-func createProjectFiles(projectName, framework string) {
+func createProjectFiles(projectName, framework, flag string) {
 
 	dirs := []string{
 		"middlewares",
@@ -129,5 +129,7 @@ func createProjectFiles(projectName, framework string) {
 		utils.CreateFileFromTemplate(projectName, templateName, filePath, framework, "")
 	}
 
-	utils.InstallDependencies(projectName)
+	requiredPackages := []string{"github.com/swaggo/swag/cmd/swag@latest"}
+
+	utils.InstallDependencies(projectName, flag, requiredPackages)
 }
