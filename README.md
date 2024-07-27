@@ -63,7 +63,7 @@
 
 To use GoEasyCLI, you **need** to have the following tools installed on your system:
 
-- [Go](https://golang.org/dl/)
+- [Go](https://golang.org/dl/) **1.19 or newer**
 - [Git](https://git-scm.com/downloads)
 
 ## 🤸 Quickstart

@@ -22,7 +22,7 @@ fetch_latest_tag() {
         echo "Error: No tags found in the repository." >&2
         exit 1
     else
-        echo "Latest tag found: $CLI_VERSION"
+        echo "GoEasy CLI_VERSION: $CLI_VERSION"
     fi
 }
 

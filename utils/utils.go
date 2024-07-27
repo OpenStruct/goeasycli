@@ -242,7 +242,7 @@ func InstallDependencies(projectName, flag string, packages []string) {
 
 		for _, pkg := range packages {
 
-			if err := RunCommand("go", "get", "-u", pkg); err != nil {
+			if err := RunCommand("go", "install", pkg); err != nil {
 				log.Fatalf("Failed to install package %s: %s", pkg, err)
 			}
 		}
