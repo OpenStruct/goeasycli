@@ -7,19 +7,11 @@ import (
 	"gorm.io/gorm"
 	"{{ .ProjectName }}/database"
 	"{{ .ProjectName }}/models"
+	"{{ .ProjectName }}/utils"
 )
 
 type UserRepo struct{}
 
-// CreateUser godoc
-// @Summary Create a new user
-// @Description Create a new user
-// @Tags user
-// @Accept  json
-// @Produce  json
-// @Param user body models.GoEasyCLITestUser true "User object"
-// @Success 200 {object} models.GoEasyCLITestUser
-// @Router /v1/user/add [post]
 func (repo *UserRepo) CreateUser(ctx *gin.Context) {
 	var user models.GoEasyCLITestUser
 	if err := ctx.ShouldBindJSON(&user); err != nil {
@@ -31,33 +23,21 @@ func (repo *UserRepo) CreateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, user)
+	utils.SuccessResponse(ctx, "User created successfully", user, nil)
 }
 
-// GetAllUsers godoc
-// @Summary Get all users
-// @Description Get all users
-// @Tags user
-// @Produce  json
-// @Success 200 {object} []models.GoEasyCLITestUser
-// @Router /v1/user/list [get]
+
 func (repo *UserRepo) GetAllUsers(ctx *gin.Context) {
 	users, err := models.GetAllUsers(ctx, database.Db)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, users)
+	
+	utils.SuccessResponse(ctx, "Users fetched successfully", users, nil)
 }
 
-// GetUserByID godoc
-// @Summary Get user by ID
-// @Description Get user by ID
-// @Tags user
-// @Produce  json
-// @Param id path string true "User ID"
-// @Success 200 {object} models.GoEasyCLITestUser
-// @Router /v1/user/{id} [get]
+
 func (repo *UserRepo) GetUserByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	user, err := models.GetUserByID(ctx, database.Db, id)
@@ -69,18 +49,10 @@ func (repo *UserRepo) GetUserByID(ctx *gin.Context) {
 		}
 		return
 	}
-	ctx.JSON(http.StatusOK, user)
+	utils.SuccessResponse(ctx, "User retrieved successfully", user, nil)
 }
 
-// UpdateUser godoc
-// @Summary Update user
-// @Description Update user
-// @Tags user
-// @Accept  json
-// @Produce  json
-// @Param user body models.GoEasyCLITestUser true "User object"
-// @Success 200 {object} models.GoEasyCLITestUser
-// @Router /v1/user/update [patch]
+
 func (repo *UserRepo) UpdateUser(ctx *gin.Context) {
 	var user models.GoEasyCLITestUser
 
@@ -98,16 +70,10 @@ func (repo *UserRepo) UpdateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, user)
+	utils.SuccessResponse(ctx, "User updated successfully", user, nil)
 }
 
-// DeleteUser godoc
-// @Summary Delete user
-// @Description Delete user
-// @Tags user
-// @Param id path string true "User ID"
-// @Success 200 {string} string	"User deleted successfully"
-// @Router /v1/user/delete/{id} [delete]
+
 func (repo *UserRepo) DeleteUser(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if err := models.DeleteUser(ctx, database.Db, id); err != nil {

@@ -9,13 +9,6 @@ import (
 
 type HealthController struct{}
 
-// Health godoc
-// @Summary Check the health of the service
-// @Description Check the health of the service
-// @Tags health
-// @Produce  json
-// @Success 200 {object} string
-// @Router /health [get]
 func (repo *HealthController) Health(c *fiber.Ctx) error {
 	response := fiber.Map{
 		"status":      "I am breathing!",

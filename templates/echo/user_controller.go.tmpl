@@ -10,15 +10,6 @@ import (
 
 type UserRepo struct{}
 
-// CreateUser godoc
-// @Summary Create a new user
-// @Description Create a new user
-// @Tags user
-// @Accept  json
-// @Produce  json
-// @Param user body models.GoEasyCLITestUser true "User object"
-// @Success 200 {object} models.GoEasyCLITestUser
-// @Router /v1/user/add [post]
 func (repo *UserRepo) CreateUser(ctx echo.Context) error {
 	var user models.GoEasyCLITestUser
 
@@ -36,13 +27,7 @@ func (repo *UserRepo) CreateUser(ctx echo.Context) error {
 	return nil
 }
 
-// GetAllUsers godoc
-// @Summary Get all users
-// @Description Get all users
-// @Tags user
-// @Produce  json
-// @Success 200 {object} []models.GoEasyCLITestUser
-// @Router /v1/user/list [get]
+
 func (repo *UserRepo) GetAllUsers(ctx echo.Context) error {
 	users, err := models.GetAllUsers(ctx.Request().Context(), database.Db)
 	if err != nil {
@@ -54,14 +39,7 @@ func (repo *UserRepo) GetAllUsers(ctx echo.Context) error {
 	return nil
 }
 
-// GetUserByID godoc
-// @Summary Get user by ID
-// @Description Get user by ID
-// @Tags user
-// @Produce  json
-// @Param id path string true "User ID"
-// @Success 200 {object} models.GoEasyCLITestUser
-// @Router /v1/user/{id} [get]
+
 func (repo *UserRepo) GetUserByID(ctx echo.Context) error {
 	user, err := models.GetUserByID(ctx.Request().Context(), database.Db, ctx.Param("id"))
 	if err != nil {
@@ -73,15 +51,7 @@ func (repo *UserRepo) GetUserByID(ctx echo.Context) error {
 	return nil
 }
 
-// UpdateUser godoc
-// @Summary Update user
-// @Description Update user
-// @Tags user
-// @Accept  json
-// @Produce  json
-// @Param user body models.GoEasyCLITestUser true "User object"
-// @Success 200 {object} models.GoEasyCLITestUser
-// @Router /v1/user/update [patch]
+
 func (repo *UserRepo) UpdateUser(ctx echo.Context) error {
 	var user models.GoEasyCLITestUser
 
@@ -104,13 +74,7 @@ func (repo *UserRepo) UpdateUser(ctx echo.Context) error {
 	return nil
 }
 
-// DeleteUser godoc
-// @Summary Delete user
-// @Description Delete user
-// @Tags user
-// @Param id path string true "User ID"
-// @Success 200 {string} string	"User deleted successfully"
-// @Router /v1/user/delete/{id} [delete]
+
 func (repo *UserRepo) DeleteUser(ctx echo.Context) error {
 	err := models.DeleteUser(ctx.Request().Context(), database.Db, ctx.Param("id"))
 	if err != nil {

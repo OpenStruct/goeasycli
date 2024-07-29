@@ -257,9 +257,15 @@ func InstallDependencies(projectName, flag string, packages []string) {
 }
 
 func ValidateInputValue(inputName, inputValue string) string {
-	for strings.HasPrefix(inputValue, "-") {
-		fmt.Printf("Error: %s name cannot start with a hyphen (-)\n", inputName)
-		inputValue = PromptForInput(fmt.Sprintf("Please provide the %s name: ", inputName))
+	for {
+		if inputValue == "" {
+			fmt.Printf("Error: %s cannot be empty\n", inputName)
+		} else if strings.HasPrefix(inputValue, "-") {
+			fmt.Printf("Error: %s cannot start with a hyphen (-)\n", inputName)
+		} else {
+			return inputValue
+		}
+
+		inputValue = PromptForInput(fmt.Sprintf("Please provide a valid %s: ", inputName))
 	}
-	return inputValue
 }

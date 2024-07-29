@@ -4,15 +4,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/swagger"
-	_ "{{ .ProjectName }}/docs"
 )
 
-// @title Project API Documentation
-// @version 1.0
-
-// @host localhost:8080
-// @BasePath /v1
 func NewRouter() *fiber.App {
 	app := fiber.New()
 
@@ -33,8 +26,6 @@ func NewRouter() *fiber.App {
 			UserRoutes(userGroup)
 		}
 	}
-
-	app.Get("/swagger/*", swagger.New(swagger.Config{}))
 
 	return app
 }

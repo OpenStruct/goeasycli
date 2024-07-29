@@ -3,15 +3,9 @@ package routers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/swaggo/echo-swagger"
-	_ "{{ .ProjectName }}/docs"
 )
 
-// @title Project API Documentation
-// @version 1.0
 
-// @host localhost:8080
-// @BasePath /v1
 func NewRouter() *echo.Echo {
 	router := echo.New()
 	router.Use(middleware.Logger())
@@ -32,8 +26,6 @@ func NewRouter() *echo.Echo {
 			UserRoutes(userGroup)
 		}
 	}
-
-	router.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	return router
 }
