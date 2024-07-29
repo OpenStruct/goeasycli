@@ -132,7 +132,6 @@ After running the project, you can explore and interact with the API using Postm
 
 This Postman collection contains all available endpoints with example requests, making it easy to test and understand the API's functionality.
 
-
 ---
 
 ## 🗂️ Folder Structure
@@ -356,7 +355,7 @@ To fix this issue, you need to:
 1. Run this command in your `cmd` or `powershell`:
 
 ```bash
-go env -w CGO_ENABLED =1
+go env -w CGO_ENABLED=1
 ```
 
 2.  Download a [tdm-gcc](https://jmeubank.github.io/tdm-gcc) for your architecture and install it.
