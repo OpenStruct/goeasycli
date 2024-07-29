@@ -126,7 +126,7 @@ go run .
 
 After running the project, you can explore and interact with the API using Postman. To get started quickly, import our pre-configured API requests by clicking the button below:
 
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc%26entityType%3Dcollection%26workspaceId%3D23eb7893-79ca-41ef-96ae-c11a9551cd0c)
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc%26entityType%3Dcollection%26workspaceId%3D23eb7893-79ca-41ef-96ae-c11a9551cd0c)
 
 > Remember to change the port to match your SERVER_PORT. Default is set to **8080**
 
