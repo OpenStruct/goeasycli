@@ -124,15 +124,13 @@ go run .
 
 ## 😺 API Documentation
 
-After running the project, you can access the API documentation at `http://localhost:8080/swagger/index.html`.
+After running the project, you can explore and interact with the API using Postman. To get started quickly, import our pre-configured API requests by clicking the button below:
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc%26entityType%3Dcollection%26workspaceId%3D23eb7893-79ca-41ef-96ae-c11a9551cd0c)
 
 > Remember to change the port to match your SERVER_PORT. Default is set to **8080**
 
-More details on using the API documentation can be found in the [Swag documentation](https://github.com/swaggo/swag).
-
-If you prefer to use Postman, or if your Swagger implementation is not working, you can utilize the Postman collection provided below. In this case, you should comment out the `_ "{{project}}/docs"` line in the `routers.go` file, as well as the Swagger endpoint in the `routes.go` file.
-
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D28835299-b86cba8e-57e5-4e0d-81be-9acbc3fc6fcc%26entityType%3Dcollection%26workspaceId%3D23eb7893-79ca-41ef-96ae-c11a9551cd0c)
+This Postman collection contains all available endpoints with example requests, making it easy to test and understand the API's functionality.
 
 ---
 
@@ -357,7 +355,7 @@ To fix this issue, you need to:
 1. Run this command in your `cmd` or `powershell`:
 
 ```bash
-go env -w CGO_ENABLED =1
+go env -w CGO_ENABLED=1
 ```
 
 2.  Download a [tdm-gcc](https://jmeubank.github.io/tdm-gcc) for your architecture and install it.

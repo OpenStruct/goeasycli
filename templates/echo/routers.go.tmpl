@@ -3,21 +3,14 @@ package routers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/swaggo/echo-swagger"
-	_ "{{ .ProjectName }}/docs"
 )
 
-// @title Project API Documentation
-// @version 1.0
-
-// @host localhost:8080
-// @BasePath /v1
 func NewRouter() *echo.Echo {
 	router := echo.New()
 	router.Use(middleware.Logger())
 	router.Use(middleware.CORS())
 	// router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-	// 	AllowOrigins: []string{"https://labstack.com", "https://labstack.net"},
+	// 	AllowOrigins: []string{"https://example.com", "https://example.net"},
 	// 	AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	// }))
 	// change the origins above to your designated origins
@@ -32,8 +25,6 @@ func NewRouter() *echo.Echo {
 			UserRoutes(userGroup)
 		}
 	}
-
-	router.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	return router
 }

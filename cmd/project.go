@@ -129,7 +129,5 @@ func createProjectFiles(projectName, framework, flag string) {
 		utils.CreateFileFromTemplate(projectName, templateName, filePath, framework, "")
 	}
 
-	requiredPackages := []string{"github.com/swaggo/swag/cmd/swag@latest"}
-
-	utils.InstallDependencies(projectName, flag, requiredPackages)
+	utils.InstallDependencies(projectName, flag, nil)
 }
