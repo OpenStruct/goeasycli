@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"errors"
+    "strings"
+    "net/http"
+    "gorm.io/gorm"
 	"github.com/labstack/echo/v4"
-	"github.com/pkg/errors"
 	"{{ .ProjectName }}/database"
 	"{{ .ProjectName }}/models"
 	"{{ .ProjectName }}/utils"
@@ -10,47 +13,47 @@ import (
 
 type UserRepo struct{}
 
+
 func (repo *UserRepo) CreateUser(ctx echo.Context) error {
 	var user models.GoEasyCLITestUser
 
 	if err := ctx.Bind(&user); err != nil {
-		utils.FailedResponse(ctx, "Failed to bind user data", err)
-		return err
+		return utils.FailedResponse(ctx, "Failed to bind user data", err)
+
 	}
 
 	if err := models.CreateUser(ctx.Request().Context(), database.Db, &user); err != nil {
-		utils.ErrorResponse(ctx, "Failed to create user", err)
-		return err
+		if errors.Is(err, gorm.ErrDuplicatedKey) || strings.Contains(err.Error(), "UNIQUE constraint failed") {
+			return ctx.JSON(http.StatusConflict, map[string]string{"error": "Email already exists"})
+		}
+		return utils.ErrorResponse(ctx, "Failed to create user", err)
+
 	}
 
-	utils.SuccessResponse(ctx, "User created successfully", user, nil)
-	return nil
-}
+	return utils.SuccessResponse(ctx, "User created successfully", user, nil)
 
+}
 
 func (repo *UserRepo) GetAllUsers(ctx echo.Context) error {
 	users, err := models.GetAllUsers(ctx.Request().Context(), database.Db)
 	if err != nil {
-		utils.ErrorResponse(ctx, "Failed to get users", err)
-		return err
+		return utils.ErrorResponse(ctx, "Failed to get users", err)
 	}
 
-	utils.SuccessResponse(ctx, "Users fetched successfully", users, nil)
-	return nil
-}
+	return utils.SuccessResponse(ctx, "Users fetched successfully", users, nil)
 
+}
 
 func (repo *UserRepo) GetUserByID(ctx echo.Context) error {
 	user, err := models.GetUserByID(ctx.Request().Context(), database.Db, ctx.Param("id"))
 	if err != nil {
-		utils.ErrorResponse(ctx, "User not found", err)
-		return err
+		return utils.ErrorResponse(ctx, "User not found", err)
+
 	}
 
-	utils.SuccessResponse(ctx, "User retrieved successfully", user, nil)
-	return nil
-}
+	return utils.SuccessResponse(ctx, "User retrieved successfully", user, nil)
 
+}
 
 func (repo *UserRepo) UpdateUser(ctx echo.Context) error {
 	var user models.GoEasyCLITestUser
@@ -61,27 +64,26 @@ func (repo *UserRepo) UpdateUser(ctx echo.Context) error {
 	}
 
 	if user.ID == 0 {
-		utils.FailedResponse(ctx, "Invalid user ID", nil)
-		return errors.Errorf("Invalid user ID")
+		return utils.FailedResponse(ctx, "Invalid user ID", nil)
 	}
 
 	if err := models.UpdateUser(ctx.Request().Context(), database.Db, &user); err != nil {
-		utils.ErrorResponse(ctx, "Failed to update user", err)
-		return err
+		if err.Error() == "user not found" {
+			return ctx.JSON(http.StatusNotFound, map[string]string{"error": "User not found"})
+		}
+		return utils.ErrorResponse(ctx, "Failed to update user", err)
 	}
 
-	utils.SuccessResponse(ctx, "User updated successfully", user, nil)
-	return nil
+	return utils.SuccessResponse(ctx, "User updated successfully", user, nil)
 }
-
 
 func (repo *UserRepo) DeleteUser(ctx echo.Context) error {
 	err := models.DeleteUser(ctx.Request().Context(), database.Db, ctx.Param("id"))
 	if err != nil {
-		utils.ErrorResponse(ctx, "Failed to delete user", err)
-		return err
+		return utils.ErrorResponse(ctx, "Failed to delete user", err)
+
 	}
 
-	utils.SuccessResponse(ctx, "User deleted successfully", nil, nil)
-	return nil
+	return utils.SuccessResponse(ctx, "User deleted successfully", nil, nil)
+
 }

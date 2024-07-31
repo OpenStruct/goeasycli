@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func createProject(projectName, framework, flag string) {
@@ -116,7 +117,7 @@ func createProjectFiles(projectName, framework, flag string) {
 			"echo/responses.go.tmpl":         "utils/responses.go",
 		},
 	}
-
+	framework = strings.ToLower(framework)
 	if files, ok := frameworkFiles[framework]; ok {
 		for templateName, filePath := range files {
 			utils.CreateFileFromTemplate(projectName, templateName, filePath, framework, "")

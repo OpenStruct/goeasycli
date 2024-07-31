@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"errors"
+	"strings"
 	"{{ .ProjectName }}/database"
 	"{{ .ProjectName }}/models"
 	"{{ .ProjectName }}/utils"
@@ -15,23 +17,27 @@ func (repo *UserController) CreateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "cannot parse JSON"})
 	}
+
 	if err := models.CreateUser(c.Context(), database.Db, &user); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		if errors.Is(err, gorm.ErrDuplicatedKey) || strings.Contains(err.Error(), "UNIQUE constraint failed") {
+			return c.Status(fiber.StatusConflict).JSON(fiber.Map{"error": "Email already exists"})
+		} else {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
 	}
 
-	return utils.SuccessResponse(c, "User created successfully",user,nil)
+	return utils.SuccessResponse(c, "User created successfully", user, nil)
 }
-
 
 func (repo *UserController) GetAllUsers(c *fiber.Ctx) error {
 	users, err := models.GetAllUsers(c.Context(), database.Db)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(c, "Users fetched successfully",users,nil)
+	return utils.SuccessResponse(c, "Users fetched successfully", users, nil)
 
 }
-
 
 func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -42,9 +48,8 @@ func (repo *UserController) GetUserByID(c *fiber.Ctx) error {
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(c, "User retrieved successfully",user,nil)
+	return utils.SuccessResponse(c, "User retrieved successfully", user, nil)
 }
-
 
 func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 	var user models.GoEasyCLITestUser
@@ -58,9 +63,13 @@ func (repo *UserController) UpdateUser(c *fiber.Ctx) error {
 	}
 
 	if err := models.UpdateUser(c.Context(), database.Db, &user); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		if err.Error() == "user not found" {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+		}
+		return utils.ErrorResponse(c, "Failed to update user", err)
 	}
-	return utils.SuccessResponse(c, "User updated successfully",user,nil)
+	
+	return utils.SuccessResponse(c, "User updated successfully", user, nil)
 }
 
 func (repo *UserController) DeleteUser(c *fiber.Ctx) error {
