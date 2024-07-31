@@ -1,18 +1,23 @@
 package models
 
 import (
-	"gorm.io/gorm"
+	"errors"
 	"context"
+	"time"
+
+	"gorm.io/gorm"
 )
 
 type GoEasyCLITestUser struct {
-	gorm.Model
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID uint `json:"id" gorm:"primaryKey;autoIncrement"`
+	Name  string `json:"name,omitempty"`
+	Email string `json:"email,omitempty" gorm:"unique"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func CreateUser(ctx context.Context,db *gorm.DB, user *GoEasyCLITestUser) error {
-	return db.WithContext(ctx).Create(user).Error
+	return db.WithContext(ctx).Create(&user).Error
 }
 
 func GetAllUsers(ctx context.Context, db *gorm.DB) ([]GoEasyCLITestUser, error) {
@@ -32,7 +37,14 @@ func GetUserByID(ctx context.Context, db *gorm.DB, id string) (GoEasyCLITestUser
 }
 
 func UpdateUser(ctx context.Context, db *gorm.DB, user *GoEasyCLITestUser) error {
-	return db.WithContext(ctx).Save(user).Error
+	result := db.WithContext(ctx).Where("id = ?", user.ID).Updates(user)
+    if result.Error != nil {
+        return result.Error
+    }
+    if result.RowsAffected == 0 {
+        return errors.New("user not found")
+    }
+    return nil
 }
 
 func DeleteUser(ctx context.Context, db *gorm.DB, id string) error {

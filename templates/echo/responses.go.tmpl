@@ -1,12 +1,12 @@
 package utils
 
 import (
-	"net/http"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 // Error Response
-func ErrorResponse(ctx echo.Context, message string, reason error) {
+func ErrorResponse(ctx echo.Context, message string, reason error) error {
 	response := map[string]interface{}{
 		"status":  "error",
 		"message": message,
@@ -16,11 +16,11 @@ func ErrorResponse(ctx echo.Context, message string, reason error) {
 		response["reason"] = reason.Error()
 	}
 
-	ctx.JSON(http.StatusBadRequest, response)
+	return ctx.JSON(http.StatusBadRequest, response)
 }
 
 // Success Response
-func SuccessResponse(ctx echo.Context, message string, data interface{}, total *int64) {
+func SuccessResponse(ctx echo.Context, message string, data interface{}, total *int64) error {
 	response := map[string]interface{}{
 		"status":  "success",
 		"message": message,
@@ -32,11 +32,11 @@ func SuccessResponse(ctx echo.Context, message string, data interface{}, total *
 	if total != nil {
 		response["total"] = total
 	}
-	ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusOK, response)
 }
 
 // Failed Response
-func FailedResponse(ctx echo.Context, message string, reason error) {
+func FailedResponse(ctx echo.Context, message string, reason error) error {
 	response := map[string]interface{}{
 		"status":  "failed",
 		"message": message,
@@ -46,11 +46,11 @@ func FailedResponse(ctx echo.Context, message string, reason error) {
 		response["reason"] = reason.Error()
 	}
 
-	ctx.JSON(http.StatusBadRequest, response)
+	return ctx.JSON(http.StatusBadRequest, response)
 }
 
 // NotFound Response
-func NotFoundResponse(ctx echo.Context, message string, reason error) {
+func NotFoundResponse(ctx echo.Context, message string, reason error) error {
 	response := map[string]interface{}{
 		"status":  "not found",
 		"message": message,
@@ -59,11 +59,11 @@ func NotFoundResponse(ctx echo.Context, message string, reason error) {
 	if reason != nil {
 		response["reason"] = reason.Error()
 	}
-	ctx.JSON(http.StatusNotFound, response)
+	return ctx.JSON(http.StatusNotFound, response)
 }
 
 // Unauthorized Response
-func UnauthorizedResponse(ctx echo.Context, message string, reason error) {
+func UnauthorizedResponse(ctx echo.Context, message string, reason error) error {
 
 	response := map[string]interface{}{
 		"status":  "unauthorized",
@@ -74,11 +74,11 @@ func UnauthorizedResponse(ctx echo.Context, message string, reason error) {
 		response["reason"] = reason.Error()
 	}
 
-	ctx.JSON(http.StatusUnauthorized, response)
+	return ctx.JSON(http.StatusUnauthorized, response)
 }
 
 // Forbidden Response
-func ForbiddenResponse(ctx echo.Context, message string, reason error) {
+func ForbiddenResponse(ctx echo.Context, message string, reason error) error {
 	response := map[string]interface{}{
 		"status":  "forbidden",
 		"message": message,
@@ -88,5 +88,5 @@ func ForbiddenResponse(ctx echo.Context, message string, reason error) {
 		response["reason"] = reason.Error()
 	}
 
-	ctx.JSON(http.StatusForbidden, response)
+	return ctx.JSON(http.StatusForbidden, response)
 }
